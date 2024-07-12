@@ -2,7 +2,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram } from "@mui/icons-material";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  GitHub,
+  LinkedIn,
+} from "@mui/icons-material";
 
 const Sidebar = () => {
   const motionVariants = {
@@ -57,7 +63,7 @@ const Sidebar = () => {
               href="#"
               className="flex h-8 w-8 items-center justify-center rounded-full"
             >
-              <Facebook className="opacity-70" />
+              <GitHub className="opacity-70" />
             </Link>
           </motion.div>
           <motion.div whileHover={{ y: -10 }}>
@@ -65,7 +71,7 @@ const Sidebar = () => {
               href="#"
               className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
             >
-              <Twitter className="opacity-70" />
+              <LinkedIn className="opacity-70" />
             </Link>
           </motion.div>
           <motion.div whileHover={{ y: -10 }} className="h-full w-full">
@@ -78,10 +84,10 @@ const Sidebar = () => {
           </motion.div>
         </motion.div>
         <div className="portfolio-links *py-5 flex w-full flex-col items-start justify-start px-10 py-20">
-          {hoveredLinks("Projects", "projects")}
-          {hoveredLinks("About", "about")}
-          {hoveredLinks("Skills", "skills")}
-          {hoveredLinks("Contact", "contact")}
+          {hoveredLinks("Projects.", "projects")}
+          {hoveredLinks("About.", "about")}
+          {hoveredLinks("Skills.", "skills")}
+          {hoveredLinks("Contact.", "contact")}
         </div>
       </div>
     </motion.div>
