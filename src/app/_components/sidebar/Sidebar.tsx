@@ -9,8 +9,20 @@ import {
   GitHub,
   LinkedIn,
 } from "@mui/icons-material";
+import CatChat from "../common/CatText";
 
-const Sidebar = () => {
+type Props = {
+  toggleLinks: string;
+  refLinks: {
+    about: React.RefObject<HTMLDivElement>;
+    experience: React.RefObject<HTMLDivElement>;
+    projects: React.RefObject<HTMLDivElement>;
+    skills: React.RefObject<HTMLDivElement>;
+    contact: React.RefObject<HTMLDivElement>;
+  };
+};
+
+const Sidebar = ({ toggleLinks, refLinks }: Props) => {
   const motionVariants = {
     normal: { scale: 1 },
     hovered: { scale: 1.05 },
@@ -19,13 +31,24 @@ const Sidebar = () => {
 
   function hoveredLinks(name: string, link: string) {
     return (
-      <motion.div whileHover={"hoverLine"} className={"flex flex-row py-3"}>
+      <motion.div whileHover={"hoverLine"} className={"flex flex-row py-1"}>
         <motion.div
           initial={{ width: 10 }}
           variants={motionVariants}
-          className="mr-2 mt-8 h-0 border-2 border-white"
+          className="mr-2 mt-[2.2rem] h-0 border-2 border-white"
+          animate={toggleLinks === link ? "hoverLine" : "normal"}
         ></motion.div>
-        <Link href={`#${link}`} className="text-md mt-6 font-mono">
+        <Link
+          href={`#${link}`}
+          className="mt-6 font-mono text-sm"
+          onClick={() =>
+            refLinks[link].current.scrollIntoView({
+              behavior: "auto",
+              block: "center",
+              inline: "center",
+            })
+          }
+        >
           {name}
         </Link>
       </motion.div>
@@ -42,10 +65,10 @@ const Sidebar = () => {
     >
       <div className="mt-10 flex h-full w-full flex-col items-center justify-center">
         <div className="flex flex-col items-start justify-start px-10 *:py-2">
-          <h1 className="font-mono text-xl font-semibold">
+          <h1 className="font-mono text-sm font-semibold">
             <i> James </i> Lim Zhong Zhi
           </h1>
-          <p className="font-mono text-sm">
+          <p className="font-mono text-xs">
             <u> Full-Stack Developer </u>
           </p>
           <p className="font-mono text-xs text-gray-400">
@@ -83,13 +106,15 @@ const Sidebar = () => {
             </Link>
           </motion.div>
         </motion.div>
-        <div className="portfolio-links *py-5 flex w-full flex-col items-start justify-start px-10 py-20">
-          {hoveredLinks("Projects.", "projects")}
+        <div className="portfolio-links flex w-full flex-col items-start justify-start px-10 py-20">
           {hoveredLinks("About.", "about")}
+          {hoveredLinks("Experience.", "experience")}
+          {hoveredLinks("Projects.", "projects")}
           {hoveredLinks("Skills.", "skills")}
           {hoveredLinks("Contact.", "contact")}
         </div>
       </div>
+      <CatChat />
     </motion.div>
   );
 };
