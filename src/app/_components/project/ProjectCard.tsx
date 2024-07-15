@@ -11,7 +11,7 @@ export default function ProjectCard() {
         <BrutalBadge>View Gallery</BrutalBadge>
         <BrutalBadge>View Code</BrutalBadge>
         <BrutalBadge> View Video</BrutalBadge>
-        <p className="text-balance py-2 text-sm">
+        <p className="text-balance py-2 text-xs">
           PropertyGo is a mobile application designed to help users find and
           purchase properties. The app is built using React Native and
           ExpressJS. It is designed to be user-friendly and easy to navigate.
@@ -32,7 +32,7 @@ export default function ProjectCard() {
         <h2>Defi Social Media</h2>
         <BrutalBadge>View Demo</BrutalBadge>
         <BrutalBadge>View Code</BrutalBadge>
-        <p className="text-balance py-2 text-sm">
+        <p className="text-balance py-2 text-xs">
           Pilot project using Solidity to create a decentralised social media
           that allows users to post and tip posts in cryptocurrency. The project
           aims to create a social Media platform that is censorship-resistant
@@ -50,7 +50,7 @@ export default function ProjectCard() {
         <h2> AI - Empowered Customer Service Application</h2>
         <BrutalBadge>View Figma</BrutalBadge>
         <BrutalBadge>View HuggingFace</BrutalBadge>
-        <p className="text-balance py-2 text-sm">
+        <p className="text-balance py-2 text-xs">
           Pilot AI application for customer service representatives, designed to
           provide instantaneous feedback to their performance. The application
           is built using Gradio, Flask and Firebase. It is designed to be
@@ -72,7 +72,7 @@ export default function ProjectCard() {
         <h2>Property Rental Analysis Pipeline</h2>
         <BrutalBadge>View Demo</BrutalBadge>
         <BrutalBadge>View Code</BrutalBadge>
-        <p className="text-balance py-2 text-sm">
+        <p className="text-balance py-2 text-xs">
           Scraping data from property rental websites to create a pipeline that
           analyses rental prices in Singapore. The project aims to provide users
           with insights into rental prices in different areas of Singapore. The

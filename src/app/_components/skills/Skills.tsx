@@ -60,7 +60,7 @@ export default function Skills() {
   function accordionGenerator({ title, content }: Skill) {
     return (
       <Accordion
-        className="col-span-2 w-full lg:w-[unset]"
+        className="col-span-1 w-full lg:w-[unset]"
         type="single"
         collapsible
       >
@@ -75,11 +75,11 @@ export default function Skills() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      className="my-[10rem] flex flex-col border-b-2 border-gray-200 py-10 pr-[6rem]"
+      className="my-[10rem] flex min-w-full flex-col overflow-y-scroll border-b-2 border-gray-200 py-10 pr-[6rem]"
     >
       <FlipLink text="Skills" href="#" />
       <br />
-      <div className="mt-2 grid grid-flow-row grid-cols-4 gap-4">
+      <div className="row-auto mt-2 grid h-[50vh] grid-flow-row gap-4 overflow-y-scroll sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         {skills.map((skill, index) => (
           <div key={index}>
             {accordionGenerator({ title: skill.title, content: skill.content })}

@@ -57,7 +57,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
       animate={{ x: 0 }}
       exit={{ x: "-40rem" }}
       transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
-      className="sticky bottom-0 left-0 top-0 h-screen w-[40%] items-center justify-center shadow-lg file:hidden md:flex lg:flex"
+      className="sticky bottom-0 left-0 top-0 h-screen w-[40%] items-center justify-center shadow-lg sm:flex md:flex lg:flex"
     >
       <div className="mt-10 flex h-full w-full flex-col items-center justify-center">
         <div className="flex flex-col items-start justify-start px-10 *:py-2">
