@@ -7,7 +7,7 @@ export default function LoremBackground() {
         initial={{ y: 0 }}
         animate={{ y: -400 }}
         transition={{ repeatType: "reverse", repeat: Infinity, duration: 60 }}
-        className="absolute right-0 top-0 flex w-[60%] items-start justify-start overflow-hidden font-mono text-xs opacity-5"
+        className="absolute right-0 top-0 flex w-[100%] items-start justify-start overflow-hidden font-mono text-xs opacity-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Eros in cursus
@@ -256,7 +256,7 @@ export default function LoremBackground() {
           duration: 60,
           delay: 20,
         }}
-        className="absolute right-0 top-0 flex w-[60%] items-start justify-start overflow-hidden font-mono text-xs opacity-5"
+        className="absolute right-0 top-0 flex w-[100%] items-start justify-start overflow-hidden font-mono text-xs opacity-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Eros in cursus

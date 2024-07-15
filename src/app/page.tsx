@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import LoremBackground from "./_components/common/LoremIpsumBackground";
 import Sidebar from "./_components/sidebar/Sidebar";
+import TopBar from "./_components/sidebar/TopBar";
 import Summary from "./_components/summary/Summary";
 import Projects from "./_components/project/Projects";
 import Experience from "./_components/experience/Experience";
@@ -92,12 +93,13 @@ export default function HomePage() {
             contact: contactRef,
           }}
         />
+        <TopBar />
         <LoremBackground />
         <motion.div
           ref={contentRef}
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="h-[100vh] w-[60%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth font-mono"
+          className="h-[100vh] w-[100%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
         >
           <motion.div
             className={`${aboutInView ? "opacity-0" : "opacity-100"} mb-52 grid h-[110%] -translate-y-[18rem] place-items-start`}
