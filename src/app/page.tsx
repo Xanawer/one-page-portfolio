@@ -69,9 +69,17 @@ export default function HomePage() {
     }
   }, [skillsInView]);
 
+  const motionVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
+
   return (
     <>
-      <main className="min-w-screen flex h-[100vh] min-h-screen flex-row items-center justify-end bg-[#15162c] text-white">
+      <motion.main
+        variants={motionVariants}
+        className="min-w-screen flex h-[100vh] min-h-screen flex-row items-center justify-end bg-[#15162c] text-white"
+      >
         <Sidebar
           key="sidebar-_components"
           toggleLinks={toggleLinks}
@@ -99,15 +107,14 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             ref={aboutRef}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className={`py-52 transition-all duration-75`}
+            whileInView={aboutInView ? "visible" : "hidden"}
+            className={`mt-16 py-52 transition-all duration-75`}
           >
             <Summary />
           </motion.div>
           <div
             ref={experienceRef}
-            className={`${experienceInView ? "" : ""} py-52`}
+            className={`${experienceInView ? "" : ""} mt-32 py-52`}
           >
             <Experience />
           </div>
@@ -127,7 +134,7 @@ export default function HomePage() {
             background: useMotionTemplate`radial-gradient(600px at ${x}px ${y}px, rgba(21, 22, 150, 0.2), transparent 80%)`,
           }}
         />
-      </main>
+      </motion.main>
     </>
   );
 }
