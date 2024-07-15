@@ -7,7 +7,7 @@ export default function useMouse() {
     y: useMotionValue(0),
   });
 
-  const mouseMove = (e: { clientX: any; clientY: any }) => {
+  const mouseMove = (e: { clientX: number; clientY: number }) => {
     const { clientX, clientY } = e;
     mouse.x.set(clientX);
     mouse.y.set(clientY);

@@ -11,16 +11,11 @@ import {
 } from "@mui/icons-material";
 import CatChat from "../common/CatText";
 
+type RefLinks = Record<string, React.RefObject<HTMLDivElement>>;
+
 type Props = {
   toggleLinks: string;
-  refLinks: {
-    ascii: React.RefObject<HTMLDivElement>;
-    about: React.RefObject<HTMLDivElement>;
-    experience: React.RefObject<HTMLDivElement>;
-    projects: React.RefObject<HTMLDivElement>;
-    skills: React.RefObject<HTMLDivElement>;
-    contact: React.RefObject<HTMLDivElement>;
-  };
+  refLinks: RefLinks;
 };
 
 const Sidebar = ({ toggleLinks, refLinks }: Props) => {
@@ -43,7 +38,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           href={`#${link}`}
           className="mt-6 font-mono text-sm"
           onClick={() =>
-            refLinks[link].current.scrollIntoView({
+            refLinks[link]?.current?.scrollIntoView({
               behavior: "auto",
               block: "center",
               inline: "center",

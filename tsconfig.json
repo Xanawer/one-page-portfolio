@@ -39,5 +39,5 @@
     ".next/types/**/*.ts",
     "src/app/_components/3d/Model.jsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "public", ".next"]
 }

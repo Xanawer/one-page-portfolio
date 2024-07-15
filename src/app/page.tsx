@@ -1,18 +1,13 @@
 "use client";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoremBackground from "./_components/common/LoremIpsumBackground";
 import Sidebar from "./_components/sidebar/Sidebar";
 import Summary from "./_components/summary/Summary";
 import Projects from "./_components/project/Projects";
 import Experience from "./_components/experience/Experience";
-import {
-  useInView,
-  motion,
-  useMotionValue,
-  useMotionTemplate,
-} from "framer-motion";
+import Skills from "./_components/skills/Skills";
+import { useInView, motion, useMotionTemplate } from "framer-motion";
 import AnimatedASCIIArt from "./_components/ascii-art/AnimatedASCIIArt";
-import Scene from "./_components/3d/Scene";
 import useMouse from "./_utils/useMouse";
 
 export default function HomePage() {
@@ -33,9 +28,12 @@ export default function HomePage() {
     margin: "-50% 0px",
   });
   const projectsInView = useInView(projectsRef, {
-    margin: "-50% 0px",
+    margin: "-60% 0px",
   });
   const asciiInView = useInView(asciiRef, {
+    margin: "-50% 0px",
+  });
+  const skillsInView = useInView(skillsRef, {
     margin: "-50% 0px",
   });
 
@@ -64,6 +62,12 @@ export default function HomePage() {
       setToggleLinks("ascii");
     }
   }, [asciiInView]);
+
+  useEffect(() => {
+    if (skillsInView) {
+      setToggleLinks("skills");
+    }
+  }, [skillsInView]);
 
   return (
     <>
@@ -96,7 +100,7 @@ export default function HomePage() {
           <motion.div
             ref={aboutRef}
             initial={{ opacity: 0 }}
-            animate={aboutInView ? { opacity: 1 } : null}
+            whileInView={{ opacity: 1 }}
             className={`py-52 transition-all duration-75`}
           >
             <Summary />
@@ -112,6 +116,9 @@ export default function HomePage() {
             className={`${projectsInView ? "" : ""} py-52`}
           >
             <Projects />
+          </div>
+          <div ref={skillsRef} className={`${skillsInView ? "" : ""} py-52`}>
+            <Skills />
           </div>
         </motion.div>
         <motion.div

@@ -21,7 +21,7 @@ const FlipLink = ({ text, href }: Props) => {
       }}
     >
       <div>
-        {text!.split("").map((l, i) => (
+        {text.split("").map((l, i) => (
           <motion.span
             variants={{
               initial: {

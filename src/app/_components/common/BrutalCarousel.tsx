@@ -205,7 +205,7 @@ const CarouselPrevious = React.forwardRef<
   return (
     <Button
       ref={ref}
-      variant={"noShadow"}
+      variant={"default"}
       size={size}
       className={cn(
         "rounded-base absolute h-8 w-8",
@@ -234,7 +234,7 @@ const CarouselNext = React.forwardRef<
   return (
     <Button
       ref={ref}
-      variant={"noShadow"}
+      variant={"default"}
       size={size}
       className={cn(
         "rounded-base absolute h-8 w-8",

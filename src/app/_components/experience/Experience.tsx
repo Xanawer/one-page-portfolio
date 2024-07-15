@@ -1,32 +1,10 @@
 import Image from "next/image";
 import FlipLink from "../common/FlippingText";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { BrutalBadge } from "@simple/app/_components/common/BrutalBadge";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../common/BrutalCarousel";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-} from "../common/BrutalDialog";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../common/BrutalHoverCard";
-import { DialogTitle } from "@mui/material";
+import { Dialog, DialogContent, DialogTrigger } from "../common/BrutalDialog";
 
 export default function Experience() {
-  const [activeMenu, setActiveMenu] = useState<string>("");
   const imageData = ["hutchinson.jpg", "hutchinson2.jpg"];
   return (
     <Dialog>
