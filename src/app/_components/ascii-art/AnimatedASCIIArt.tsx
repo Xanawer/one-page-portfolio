@@ -25,7 +25,11 @@ import output5 from "./mushroom/output5";
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export default function AnimatedASCIIArt() {
+type Props = {
+  shouldAnimate: boolean;
+};
+
+export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
   const [frame, setFrame] = useState(output0); // Provide a default value for the frame state variable
   const frames = [output0, output1, output2, output3, output4, output5];
   const opacity = useMotionValue(0.75);
@@ -47,10 +51,11 @@ export default function AnimatedASCIIArt() {
   return (
     <motion.div
       style={{ opacity: opacity }}
-      className="ml-[-5rem] mt-[-30rem] flex h-[140vh] w-full items-start justify-start"
+      className="grid h-[75vh] w-full items-start justify-start"
     >
+      <header className="font-mono text-2xl">Mushroom ASCII Art</header>
       <pre className="text-xs tracking-wider">{`
-         ${frame}
+         ${shouldAnimate ? frame : output0}
         `}</pre>
     </motion.div>
   );

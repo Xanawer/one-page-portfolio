@@ -14,6 +14,7 @@ import CatChat from "../common/CatText";
 type Props = {
   toggleLinks: string;
   refLinks: {
+    ascii: React.RefObject<HTMLDivElement>;
     about: React.RefObject<HTMLDivElement>;
     experience: React.RefObject<HTMLDivElement>;
     projects: React.RefObject<HTMLDivElement>;
@@ -83,7 +84,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
         >
           <motion.div whileHover={{ y: -10 }}>
             <Link
-              href="#"
+              href="https://www.github.com/Xanawer"
               className="flex h-8 w-8 items-center justify-center rounded-full"
             >
               <GitHub className="opacity-70" />
@@ -91,7 +92,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           </motion.div>
           <motion.div whileHover={{ y: -10 }}>
             <Link
-              href="#"
+              href="https://www.linkedin.com/in/Xanawer"
               className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
             >
               <LinkedIn className="opacity-70" />
@@ -99,7 +100,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           </motion.div>
           <motion.div whileHover={{ y: -10 }} className="h-full w-full">
             <Link
-              href="#"
+              href="https://www.instagram.com/LaZZyBird"
               className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
             >
               <Instagram className="opacity-70" />
@@ -107,6 +108,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           </motion.div>
         </motion.div>
         <div className="portfolio-links flex w-full flex-col items-start justify-start px-10 py-20">
+          {hoveredLinks("ASCII.", "ascii")}
           {hoveredLinks("About.", "about")}
           {hoveredLinks("Experience.", "experience")}
           {hoveredLinks("Projects.", "projects")}

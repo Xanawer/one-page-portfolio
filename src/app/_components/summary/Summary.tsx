@@ -7,7 +7,7 @@ export default function Summary() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      className="flex flex-col py-10 pr-[6rem]"
+      className="flex flex-col border-b-2 border-gray-200 py-10 pr-[6rem]"
     >
       <FlipLink text="About" href="#" />
       <br />
