@@ -13,7 +13,7 @@ export default function BottomBar({ toggleLinks, refLinks }: Props) {
   const tabs = refLinks ? Object.keys(refLinks) : [];
 
   return (
-    <nav className="border-border dark:border-darkBorder dark:bg-darkBg m500:h-16 fixed bottom-0 left-0 z-20 mx-auto flex h-[88px] w-full items-center rounded-t-lg border-b-4 bg-slate-200 px-5 sm:flex md:hidden lg:hidden xl:hidden 2xl:hidden">
+    <nav className="border-border dark:border-darkBorder dark:bg-darkBg m500:h-16 shadow-t fixed bottom-0 left-0 z-20 mx-auto flex h-[88px] w-full items-center rounded-t-lg border-b-4 bg-slate-200 px-5 sm:flex md:hidden lg:hidden xl:hidden 2xl:hidden">
       <div className="dark:text-darkText text-text mx-auto flex w-[1300px] max-w-full items-center justify-center space-x-5 overflow-x-scroll scroll-smooth">
         <header className="border-r-2 border-r-black font-mono">
           James&nbsp;
