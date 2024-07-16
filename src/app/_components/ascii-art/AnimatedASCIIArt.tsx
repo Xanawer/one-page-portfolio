@@ -16,22 +16,15 @@
  * 9. The ASCII art should be able to stop.
  */
 
-import output0 from "./mushroom/output0";
-import output1 from "./mushroom/output1";
-import output2 from "./mushroom/output2";
-import output3 from "./mushroom/output3";
-import output4 from "./mushroom/output4";
-import output5 from "./mushroom/output5";
 import frames from "./ui2/frames";
-import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type Props = {
   shouldAnimate: boolean;
-  textArts: { filename: string; content: string }[];
 };
 
-export default function AnimatedASCIIArt({ shouldAnimate, textArts }: Props) {
+export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
   const [frame, setFrame] = useState(frames[0]); // Provide a default value for the frame state variable
   const opacity = useMotionValue(0.75);
 
@@ -55,7 +48,7 @@ export default function AnimatedASCIIArt({ shouldAnimate, textArts }: Props) {
       className="grid h-[75vh] w-full place-items-end items-end justify-start overflow-visible"
     >
       <pre className="h-full w-full text-xs tracking-wider">{`
-         ${shouldAnimate ? frame : output0}
+         ${shouldAnimate ? frame : frames[0]}
         `}</pre>
     </motion.div>
   );
