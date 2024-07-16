@@ -104,7 +104,7 @@ export default function HomePage() {
           className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white *:overflow-x-scroll sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
         >
           <motion.div
-            className={`${aboutInView ? "opacity-0" : "opacity-100"} -3translate-y-[10rem] grid h-[140%] place-items-start pr-10`}
+            className={`${aboutInView ? "opacity-0" : "opacity-100"} grid h-[140%] -translate-y-[10rem] place-items-start pr-10`}
             ref={asciiRef}
           >
             <AnimatedASCIIArt shouldAnimate={asciiInView} />

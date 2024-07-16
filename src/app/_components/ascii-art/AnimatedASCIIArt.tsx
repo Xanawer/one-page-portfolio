@@ -45,10 +45,10 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
   return (
     <motion.div
       style={{ opacity: opacity }}
-      className="grid h-[75vh] w-full place-items-end items-end justify-start overflow-visible"
+      className="flex h-[75vh] w-full place-items-start items-start justify-start overflow-visible"
     >
-      <pre className="h-full w-full text-xs tracking-wider">{`
-         ${shouldAnimate ? frame : frames[0]}
+      <pre className="-ml-[40px] w-[50%] text-xs tracking-tighter sm:-ml-[150px] md:-ml-[100px] lg:-ml-[50px]">{`
+         ${shouldAnimate ? frame : frames[0]} 
         `}</pre>
     </motion.div>
   );
