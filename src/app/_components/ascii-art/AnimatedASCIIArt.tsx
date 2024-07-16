@@ -32,7 +32,7 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
     const id = setInterval(() => {
       const currentIndex = frames.indexOf(frame ?? "");
       const nextIndex = (currentIndex + 1) % frames.length;
-      setFrame(frames[nextIndex] ? frames[nextIndex] : output0);
+      setFrame(frames[nextIndex] ? frames[nextIndex] : frames[0]);
       if (nextIndex === 0) {
         opacity.set(0.75);
       } else {
