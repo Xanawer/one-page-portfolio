@@ -22,21 +22,22 @@ import output2 from "./mushroom/output2";
 import output3 from "./mushroom/output3";
 import output4 from "./mushroom/output4";
 import output5 from "./mushroom/output5";
+import frames from "./ui2/frames";
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type Props = {
   shouldAnimate: boolean;
+  textArts: { filename: string; content: string }[];
 };
 
-export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
-  const [frame, setFrame] = useState(output0); // Provide a default value for the frame state variable
-  const frames = [output0, output1, output2, output3, output4, output5];
+export default function AnimatedASCIIArt({ shouldAnimate, textArts }: Props) {
+  const [frame, setFrame] = useState(frames[0]); // Provide a default value for the frame state variable
   const opacity = useMotionValue(0.75);
 
   useEffect(() => {
     const id = setInterval(() => {
-      const currentIndex = frames.indexOf(frame);
+      const currentIndex = frames.indexOf(frame ?? "");
       const nextIndex = (currentIndex + 1) % frames.length;
       setFrame(frames[nextIndex] ? frames[nextIndex] : output0);
       if (nextIndex === 0) {
@@ -44,17 +45,16 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
       } else {
         opacity.set(opacity.get() + 0.05);
       }
-    }, 150);
+    }, 100);
 
     return () => clearInterval(id);
   }, [frame]);
   return (
     <motion.div
       style={{ opacity: opacity }}
-      className="grid h-[75vh] w-full items-start justify-start"
+      className="grid h-[75vh] w-full place-items-end items-end justify-start overflow-visible"
     >
-      <header className="font-mono text-2xl">Mushroom ASCII Art</header>
-      <pre className="text-xs tracking-wider">{`
+      <pre className="h-full w-full text-xs tracking-wider">{`
          ${shouldAnimate ? frame : output0}
         `}</pre>
     </motion.div>

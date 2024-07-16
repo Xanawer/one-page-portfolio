@@ -4,7 +4,7 @@ import { BrutalBadge } from "../common/BrutalBadge";
 
 export default function ProjectCard() {
   return (
-    <div className="w-inherit h-[70vh] scroll-m-0 overflow-y-scroll">
+    <div className="w-inherit h-[70vh] scroll-m-0 overflow-x-scroll overflow-y-scroll">
       <div className="mt-4">
         <header className="italic">Jun 2023 - Dec 2023</header>
         <h2>PropertyGo: iOS Property Purchase App</h2>

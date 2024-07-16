@@ -101,10 +101,10 @@ export default function HomePage() {
           ref={contentRef}
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
+          className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white *:overflow-x-scroll sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
         >
           <motion.div
-            className={`${aboutInView ? "opacity-0" : "opacity-100"} sm:-translate-y-[20rem mb-52 grid h-[110%] -translate-y-[18rem] place-items-start sm:-translate-x-[10rem]`}
+            className={`${aboutInView ? "opacity-0" : "opacity-100"} -3translate-y-[10rem] grid h-[140%] place-items-start pr-10`}
             ref={asciiRef}
           >
             <AnimatedASCIIArt shouldAnimate={asciiInView} />
@@ -118,7 +118,7 @@ export default function HomePage() {
           </motion.div>
           <div
             ref={experienceRef}
-            className={`${experienceInView ? "" : ""} mt-32 py-52`}
+            className={`${experienceInView ? "" : ""} mt-32 w-full py-52`}
           >
             <Experience />
           </div>
