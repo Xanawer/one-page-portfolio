@@ -2,6 +2,7 @@ import "@simple/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "James Lim - Portfolio",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="overflow-clip">{children}</body>
+      <body className="overflow-clip">
+        <SpeedInsights />
+        {children}
+      </body>
     </html>
   );
 }
