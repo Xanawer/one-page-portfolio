@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import LoremBackground from "./_components/common/LoremIpsumBackground";
 import Sidebar from "./_components/sidebar/Sidebar";
-import TopBar from "./_components/sidebar/TopBar";
+import BottomBar from "./_components/sidebar/BottomBar";
 import Summary from "./_components/summary/Summary";
 import Projects from "./_components/project/Projects";
 import Experience from "./_components/experience/Experience";
@@ -37,6 +37,15 @@ export default function HomePage() {
   const skillsInView = useInView(skillsRef, {
     margin: "-50% 0px",
   });
+
+  const refLinks = {
+    ascii: asciiRef,
+    about: aboutRef,
+    experience: experienceRef,
+    projects: projectsRef,
+    skills: skillsRef,
+    contact: contactRef,
+  };
 
   useEffect(() => {
     if (aboutInView) {
@@ -84,16 +93,9 @@ export default function HomePage() {
         <Sidebar
           key="sidebar-_components"
           toggleLinks={toggleLinks}
-          refLinks={{
-            ascii: asciiRef,
-            about: aboutRef,
-            experience: experienceRef,
-            projects: projectsRef,
-            skills: skillsRef,
-            contact: contactRef,
-          }}
+          refLinks={refLinks}
         />
-        <TopBar />
+        <BottomBar toggleLinks={toggleLinks} refLinks={refLinks} />
         <LoremBackground />
         <motion.div
           ref={contentRef}
