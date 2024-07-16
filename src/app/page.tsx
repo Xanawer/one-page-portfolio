@@ -101,7 +101,7 @@ export default function HomePage() {
           ref={contentRef}
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="h-[100vh] w-[100%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
+          className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
         >
           <motion.div
             className={`${aboutInView ? "opacity-0" : "opacity-100"} mb-52 grid h-[110%] -translate-y-[18rem] place-items-start`}
