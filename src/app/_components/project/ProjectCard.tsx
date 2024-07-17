@@ -1,5 +1,4 @@
-import Image from "next/image";
-import DottedButton from "../common/DottedButton";
+import Link from "next/link";
 import { BrutalBadge } from "../common/BrutalBadge";
 
 export default function ProjectCard() {
@@ -9,8 +8,12 @@ export default function ProjectCard() {
         <header className="italic">Jun 2023 - Dec 2023</header>
         <h2>PropertyGo: iOS Property Purchase App</h2>
         <BrutalBadge>View Gallery</BrutalBadge>
-        <BrutalBadge>View Code</BrutalBadge>
-        <BrutalBadge> View Video</BrutalBadge>
+        <Link href={"https://github.com/Xanawer/PropertyGo-Fork"}>
+          <BrutalBadge>View Code</BrutalBadge>
+        </Link>
+        <Link href={"https://www.youtube.com/watch?v=J2X5mJ3vJZ8"}>
+          <BrutalBadge> View Video</BrutalBadge>
+        </Link>
         <p className="text-balance py-2 text-xs">
           PropertyGo is a mobile application designed to help users find and
           purchase properties. The app is built using React Native and
@@ -30,8 +33,12 @@ export default function ProjectCard() {
       <div className="mt-4">
         <header className="italic">Jan 2023 - Jun 2023</header>
         <h2>Defi Social Media</h2>
-        <BrutalBadge>View Demo</BrutalBadge>
-        <BrutalBadge>View Code</BrutalBadge>
+        <Link href={"https://youtu.be/AROkKZ43D4E/"}>
+          <BrutalBadge>View Demo</BrutalBadge>
+        </Link>
+        <Link href={"https://github.com/mayvechua/IS4302_GRP6"}>
+          <BrutalBadge>View Code</BrutalBadge>
+        </Link>
         <p className="text-balance py-2 text-xs">
           Pilot project using Solidity to create a decentralised social media
           that allows users to post and tip posts in cryptocurrency. The project
@@ -48,8 +55,18 @@ export default function ProjectCard() {
       <div className="mt-4">
         <header className="italic">Jun 2023 - Dec 2023</header>
         <h2> AI - Empowered Customer Service Application</h2>
-        <BrutalBadge>View Figma</BrutalBadge>
-        <BrutalBadge>View HuggingFace</BrutalBadge>
+        <Link
+          href={
+            "https://www.figma.com/file/cKqFXqYfMVBcby8BlIaOgG/Untitled?type=design&node-id=0%3A1&mode=design&t=qejz46k6cfhvh6CJ-1"
+          }
+        >
+          <BrutalBadge>View Figma</BrutalBadge>
+        </Link>
+        <Link
+          href={"https://huggingface.co/spaces/LimKopi/Whisper-Audio-Analysis"}
+        >
+          <BrutalBadge>View HuggingFace</BrutalBadge>
+        </Link>
         <p className="text-balance py-2 text-xs">
           Pilot AI application for customer service representatives, designed to
           provide instantaneous feedback to their performance. The application
@@ -70,8 +87,20 @@ export default function ProjectCard() {
       <div className="mt-4">
         <header className="italic">Jan 2023 - Jun 2023</header>
         <h2>Property Rental Analysis Pipeline</h2>
-        <BrutalBadge>View Demo</BrutalBadge>
-        <BrutalBadge>View Code</BrutalBadge>
+        <Link
+          href={
+            "https://drive.google.com/file/d/1EaVoRBKLIS7gaKXn69fYQHhffoBFeIL-/view?usp=sharing"
+          }
+        >
+          <BrutalBadge>View Report</BrutalBadge>
+        </Link>
+        <Link
+          href={
+            "https://github.com/cocoy02/IS4242_Group11_Rental_Price_Prediction"
+          }
+        >
+          <BrutalBadge>View Code</BrutalBadge>
+        </Link>
         <p className="text-balance py-2 text-xs">
           Scraping data from property rental websites to create a pipeline that
           analyses rental prices in Singapore. The project aims to provide users
