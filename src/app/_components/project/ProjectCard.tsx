@@ -7,7 +7,13 @@ export default function ProjectCard() {
       <div className="mt-4">
         <header className="italic">Jun 2023 - Dec 2023</header>
         <h2>PropertyGo: iOS Property Purchase App</h2>
-        <BrutalBadge>View Gallery</BrutalBadge>
+        <Link
+          href={
+            "https://drive.google.com/file/d/1jG86wExxTdeWN-foGjXxwOvvQcOXXYkj/view?usp=sharing"
+          }
+        >
+          <BrutalBadge>View Report</BrutalBadge>
+        </Link>
         <Link href={"https://github.com/Xanawer/PropertyGo-Fork"}>
           <BrutalBadge>View Code</BrutalBadge>
         </Link>
