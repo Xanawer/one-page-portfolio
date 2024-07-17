@@ -36,9 +36,9 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
       if (nextIndex === 0) {
         opacity.set(0.75);
       } else {
-        opacity.set(opacity.get() + 0.05);
+        opacity.set(opacity.get() + 0.001);
       }
-    }, 100);
+    }, 110);
 
     return () => clearInterval(id);
   }, [frame]);
@@ -47,7 +47,7 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
       style={{ opacity: opacity }}
       className="flex h-[75vh] w-full place-items-start items-start justify-start overflow-visible"
     >
-      <pre className="-ml-[40px] w-[50%] text-xs tracking-tighter sm:-ml-[150px] md:-ml-[100px] lg:-ml-[50px]">{`
+      <pre className="-ml-[40px] w-[50%] text-xs font-extralight leading-[0.9rem] tracking-wider sm:-ml-[150px] md:-ml-[100px] lg:-ml-[50px]">{`
          ${shouldAnimate ? frame : frames[0]} 
         `}</pre>
     </motion.div>
