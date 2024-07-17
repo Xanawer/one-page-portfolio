@@ -129,6 +129,33 @@ export default function ProjectCard() {
         <BrutalBadge>Machine Learning</BrutalBadge>
         <BrutalBadge>Beautiful Soup 4</BrutalBadge>
       </div>
+      <div className="mt-4">
+        <header className="italic">Jun 2023 - Dec 2023</header>
+        <h2>SlumberWatch - IoT-enabled Baby Monitoring Solution</h2>
+        <Link href={"https://github.com/lxin42140/slumber-watch"}>
+          <BrutalBadge>View Code</BrutalBadge>
+        </Link>
+        <p className="text-balance py-2 text-xs">
+          IoT-enabled baby monitoring solution that uses Raspberry Pi and
+          sensors to monitor a baby's sleep. The solution is designed to help
+          parents monitor their baby's sleep patterns and receive alerts if
+          there are any issues, including serious issues such as SIDS (Sudden
+          Infant Death Syndrome). It is built using Python, Flask and SQLite.
+          The solution collects data from sensors placed in the baby's room,
+          analyses the data, and sends alerts to the parent's phone if there are
+          any issues. Parents can view their baby's sleep patterns, receive
+          alerts, and track their baby's sleep over time, helping them ensure
+          their baby is getting the rest they need.
+        </p>
+        <BrutalBadge>Python</BrutalBadge>
+        <BrutalBadge>Flask</BrutalBadge>
+        <BrutalBadge>SQLite</BrutalBadge>
+        <BrutalBadge>IoT</BrutalBadge>
+        <BrutalBadge>Raspberry Pi</BrutalBadge>
+        <BrutalBadge>Linux</BrutalBadge>
+        <BrutalBadge>Web Development</BrutalBadge>
+        <BrutalBadge>Svelte</BrutalBadge>
+      </div>
     </div>
   );
 }
