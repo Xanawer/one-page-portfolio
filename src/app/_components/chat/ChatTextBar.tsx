@@ -1,15 +1,16 @@
+import type { ClassValue } from "clsx";
 import { Textarea } from "@simple/app/_components/common/BrutalTextArea";
 import { Button } from "@/components/ui/button";
-import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
 
 type Props = {
   chatText: string;
-  setChatText: Function;
-  sendChat: Function;
+  setChatText: (text: string) => void;
+  sendChat: (text: string, userId: string) => void;
   className?: ClassValue;
   userIdOfChat: string;
 };
+
 export default function ChatTextBar({
   chatText,
   setChatText,
@@ -26,7 +27,7 @@ export default function ChatTextBar({
         placeholder="Type your admin message reply here..."
       />
       <Button
-        onClick={(e) => {
+        onClick={() => {
           sendChat(chatText, userIdOfChat);
           setChatText("");
         }}

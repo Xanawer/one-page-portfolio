@@ -13,6 +13,15 @@ const config = {
       },
     ],
   },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /async_hooks/,
+      }),
+    );
+
+    return config;
+  },
 };
 
 export default config;

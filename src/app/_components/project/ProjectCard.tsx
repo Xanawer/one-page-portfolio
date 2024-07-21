@@ -137,15 +137,16 @@ export default function ProjectCard() {
         </Link>
         <p className="text-balance py-2 text-xs">
           IoT-enabled baby monitoring solution that uses Raspberry Pi and
-          sensors to monitor a baby's sleep. The solution is designed to help
-          parents monitor their baby's sleep patterns and receive alerts if
-          there are any issues, including serious issues such as SIDS (Sudden
-          Infant Death Syndrome). It is built using Python, Flask and SQLite.
-          The solution collects data from sensors placed in the baby's room,
-          analyses the data, and sends alerts to the parent's phone if there are
-          any issues. Parents can view their baby's sleep patterns, receive
-          alerts, and track their baby's sleep over time, helping them ensure
-          their baby is getting the rest they need.
+          sensors to monitor a baby&apos;s sleep. The solution is designed to
+          help parents monitor their baby&apos;s sleep patterns and receive
+          alerts if there are any issues, including serious issues such as SIDS
+          (Sudden Infant Death Syndrome). It is built using Python, Flask and
+          SQLite. The solution collects data from sensors placed in the
+          baby&apos;s room, analyses the data, and sends alerts to the
+          parent&apos;s phone if there are any issues. Parents can view their
+          baby&apos;s sleep patterns, receive alerts, and track their
+          baby&apos;s sleep over time, helping them ensure their baby is getting
+          the rest they need.
         </p>
         <BrutalBadge>Python</BrutalBadge>
         <BrutalBadge>Flask</BrutalBadge>

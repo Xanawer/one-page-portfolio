@@ -1,8 +1,8 @@
 "use client";
 
+import type { chats } from "@simple/server/db/schema";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { chats } from "@simple/server/db/schema";
 import ChatBubble from "./ChatBubble";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { BrutalButton } from "../common/BrutalButton";
@@ -14,51 +14,49 @@ export default function ChatButton() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatText, setChatText] = useState("");
 
-  function sendChat(message: string) {
+  async function sendChat(message: string) {
     console.log(message);
     try {
-      fetch("/api/chats", {
+      const res = await fetch("/api/chats", {
         method: "POST",
         body: JSON.stringify({ message: message }),
-      }).then((res) => {
-        res.json().then((data) => {
-          console.log(data);
-        });
-        setChats((_) => [
-          {
-            message: message,
-            createdAt: new Date(),
-            userId: "me",
-            isAdmin: false,
-          },
-          ...chats,
-        ]);
       });
+      const data: { message: string } = (await res.json()) as {
+        message: string;
+      };
+      console.log(data);
+      setChats((prevChats) => [
+        {
+          message: message,
+          createdAt: new Date(),
+          userId: "me",
+          isAdmin: false,
+        },
+        ...prevChats,
+      ]);
     } catch (e) {
       console.error(e);
     }
   }
 
-  function getChats() {
+  async function getChats() {
     try {
-      fetch("/api/chats?user=user&userId=none", {
+      const res = await fetch("/api/chats?user=user&userId=none", {
         method: "GET",
-      }).then((res) => {
-        if (res.status !== 200) {
-          console.log("Error fetching chats.");
-        } else {
-          res.json().then((data) => {
-            setChats((_) => data.chats);
-          });
-        }
       });
+      if (res.status !== 200) {
+        console.log("Error fetching chats.");
+      } else {
+        const data: { chats: Chat[] } = (await res.json()) as { chats: Chat[] };
+        setChats(data.chats);
+      }
     } catch (e) {
       console.error(e);
     }
   }
 
   useEffect(() => {
-    getChats();
+    void getChats();
   }, []);
 
   return (
@@ -105,10 +103,10 @@ export default function ChatButton() {
             <div className="flex h-3/5 flex-col-reverse overflow-y-auto bg-gray-200">
               <SignedIn>
                 <AnimatePresence>
-                  {chats.map((chat, _) => {
+                  {chats.map((chat) => {
                     return (
                       <ChatBubble
-                        key={`chatbubble-${chat.createdAt}`}
+                        key={`chatbubble-${chat.createdAt?.toISOString() ?? "unknown"}`}
                         message={chat.message ?? ""}
                         sender={chat.isAdmin ? "Admin" : "Me"}
                         createdAt={chat.createdAt ?? new Date()}
@@ -142,7 +140,7 @@ export default function ChatButton() {
                   }}
                   onKeyUp={(e) => {
                     if (e.key === "Enter") {
-                      sendChat(chatText);
+                      void sendChat(chatText);
                       e.currentTarget.value = "";
                     }
                   }}
@@ -150,8 +148,8 @@ export default function ChatButton() {
                 <button
                   className="ml-5 h-full self-center rounded-full"
                   title="Send Chat"
-                  onClick={(e) => {
-                    sendChat(chatText);
+                  onClick={() => {
+                    void sendChat(chatText);
                   }}
                 >
                   <p className="font-button text-white">Send</p>
@@ -177,7 +175,7 @@ export default function ChatButton() {
 ⠀ ／l、   
 （ﾟ､ ｡ ７
 ⠀ l、ﾞ ~ヽ 
-   じしf_, )ノ  Chat with me!
+   じしf_, )ノ  Chat with me!
                `}
             </pre>
           </div>

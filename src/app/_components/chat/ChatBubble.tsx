@@ -31,7 +31,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
 
   return (
     <motion.div
-      key={`chatbubble-${createdAt}`}
+      key={`chatbubble-${createdAt.toString()}`}
       initial={{ translateX: isAdmin ? 500 : -500 }}
       animate={{
         translateX: 0,

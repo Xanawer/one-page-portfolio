@@ -5,10 +5,17 @@ import {
   getAdminChats,
   getUserChat,
 } from "@simple/server/api/chat";
-// import { io } from "socket.io-client";
 
-// So the fucking pattern is to fetch the data from a custom API route here?
-// I can just have another API endpoint, or just add a filter here.
+// Define an interface for the expected request body
+interface ChatRequestBody {
+  role: "admin" | "user";
+  message: string;
+  userId?: string;
+}
+
+// Define a type for the chat response
+type ChatResponse = string | { message: string };
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const params = url.searchParams;
@@ -39,21 +46,23 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  // const socket = io("http://localhost:3000"); // This is going to be problematic.
-  const res = await request.json();
+  const res: ChatRequestBody = (await request.json()) as ChatRequestBody;
+  let newChatResponse: ChatResponse;
+
   if (res.role === "admin") {
-    const newChatResponse = sendChatAsAdmin(res.message, res.userId);
-    // socket.emit("chat message", res.message, res.userId);
-    return Response.json({
-      message: newChatResponse,
-      sentMessage: res.message,
-    });
+    newChatResponse = sendChatAsAdmin(
+      res.message,
+      res.userId ?? "",
+    ) as unknown as ChatResponse;
   } else {
-    const newChatResponse = sendChat(res.message);
-    // socket.emit("chat message", res.message, res.userId || "none");
-    return Response.json({
-      message: newChatResponse,
-      sentMessage: res.message,
-    });
+    newChatResponse = sendChat(res.message) as unknown as ChatResponse;
   }
+
+  return Response.json({
+    message:
+      typeof newChatResponse === "string"
+        ? newChatResponse
+        : newChatResponse.message,
+    sentMessage: res.message,
+  });
 }
