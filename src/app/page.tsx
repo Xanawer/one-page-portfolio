@@ -9,7 +9,7 @@ import Experience from "./_components/experience/Experience";
 import Skills from "./_components/skills/Skills";
 import { useInView, motion, useMotionTemplate } from "framer-motion";
 import AnimatedASCIIArt from "./_components/ascii-art/AnimatedASCIIArt";
-import useMouse from "./_utils/useMouse";
+import useMouse from "../app/_utils/useMouse";
 
 export default function HomePage() {
   const [toggleLinks, setToggleLinks] = useState("");

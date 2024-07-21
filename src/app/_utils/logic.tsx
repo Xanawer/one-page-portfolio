@@ -1,7 +1,5 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Roles } from "@simple/app/types/global";
-import { auth } from "@clerk/nextjs/server";
 
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -50,9 +48,3 @@ export function randomBackgroundAnimationColourCycle(): string {
     colors[Math.floor(Math.random() * colors.length)]!;
   return randomColor;
 }
-
-export const checkRole = (role: Roles) => {
-  const { sessionClaims } = auth();
-
-  return sessionClaims?.metadata.role === role;
-};

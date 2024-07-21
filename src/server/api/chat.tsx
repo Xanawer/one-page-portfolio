@@ -2,7 +2,7 @@ import "server-only";
 import { db } from "../db";
 import { chats } from "../db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { checkRole } from "@simple/app/_utils/logic";
+import { checkRole } from "@simple/server/_utils/logic";
 // import { io } from "socket.io-client";
 type Chat = typeof chats.$inferInsert;
 

@@ -1,5 +1,4 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
-import "server-only";
 export default clerkMiddleware();
 
 export const config = {

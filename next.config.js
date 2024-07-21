@@ -13,17 +13,16 @@ const config = {
       },
     ],
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    if (!isServer) {
-      config.plugins.push(
-        new webpack.IgnorePlugin({
-          resourceRegExp: /async_hooks/,
-        }),
-      );
-    }
+  // webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  //   if (!isServer) {
+  //     config.resolve.fallback = {
+  //       ...config.resolve.fallback,
+  //       async_hooks: false,
+  //     };
+  //   }
 
-    return config;
-  },
+  //   return config;
+  // },
 };
 
 export default config;
