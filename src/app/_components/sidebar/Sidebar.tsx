@@ -2,14 +2,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  GitHub,
-  LinkedIn,
-} from "@mui/icons-material";
+import { Instagram, GitHub, LinkedIn } from "@mui/icons-material";
 import CatChat from "../common/CatText";
+import ChatButton from "../chat/ChatPopUp";
 
 type RefLinks = Record<string, React.RefObject<HTMLDivElement>>;
 
@@ -111,7 +106,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           {/* {hoveredLinks("Contact.", "contact")} */}
         </div>
       </div>
-      <CatChat />
+      <ChatButton />
     </motion.div>
   );
 };

@@ -26,29 +26,24 @@ type Props = {
 
 export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
   const [frame, setFrame] = useState(frames[0]); // Provide a default value for the frame state variable
-  const opacity = useMotionValue(0.75);
+  const opacity = useMotionValue(0.7);
 
   useEffect(() => {
     const id = setInterval(() => {
       const currentIndex = frames.indexOf(frame ?? "");
       const nextIndex = (currentIndex + 1) % frames.length;
       setFrame(frames[nextIndex] ? frames[nextIndex] : frames[0]);
-      if (nextIndex === 0) {
-        opacity.set(0.75);
-      } else {
-        opacity.set(opacity.get() + 0.001);
-      }
-    }, 110);
+    }, 95);
 
     return () => clearInterval(id);
   }, [frame]);
   return (
     <motion.div
       style={{ opacity: opacity }}
-      className="flex h-[75vh] w-full place-items-start items-start justify-start overflow-visible"
+      className="flex rotate-180 items-center justify-center overflow-auto"
     >
-      <pre className="-ml-[40px] w-[50%] text-xs font-extralight leading-[0.9rem] tracking-wider sm:-ml-[150px] md:-ml-[100px] lg:-ml-[50px]">{`
-         ${shouldAnimate ? frame : frames[0]} 
+      <pre className="pointer-events-none z-[60] inline-flex w-[600px] border-collapse translate-x-32 rotate-180 items-center text-xs font-extralight leading-[0.9rem] tracking-wider">{`
+         ${shouldAnimate ? frame : frames[55]} 
         `}</pre>
     </motion.div>
   );
