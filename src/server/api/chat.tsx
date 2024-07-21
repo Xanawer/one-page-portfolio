@@ -6,7 +6,10 @@ import { checkRole } from "@simple/server/_utils/logic";
 // import { io } from "socket.io-client";
 type Chat = typeof chats.$inferInsert;
 
+// Is this even a server action?
+
 export async function getMyChats() {
+  "use server";
   const user = auth();
   if (!user.userId) throw new Error("User not found");
   const allChats = await db.query.chats.findMany({
@@ -17,6 +20,7 @@ export async function getMyChats() {
 }
 
 export async function getUserChat(userId: string) {
+  "use server";
   if (!checkRole("admin"))
     throw new Error("User not authorized to view users chats.");
   const userChats = await db.query.chats.findMany({
@@ -30,6 +34,7 @@ export async function getUserChat(userId: string) {
 
 // Get all the users and their chats, grouped by the user ID
 export async function getAdminChats() {
+  "use server";
   if (!checkRole("admin")) throw new Error("User not authorized");
 
   // I could just run multiple queries. Or pull it from Clerk.
@@ -50,6 +55,7 @@ export async function getAdminChats() {
 }
 
 export async function sendChat(message: string) {
+  "use server";
   const user = auth();
   if (!user.userId) throw new Error("User not found");
   const newChat = await db.insert(chats).values({
@@ -65,6 +71,7 @@ export async function sendChatAsAdmin(
   message: string,
   userIdReplyingTo: string,
 ) {
+  "use server";
   if (!checkRole("admin"))
     throw new Error("User not authorized as admin to send admin chats.");
   const newChat = await db.insert(chats).values({

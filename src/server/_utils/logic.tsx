@@ -1,5 +1,6 @@
 import { Roles } from "@simple/app/types/global";
 import { auth } from "@clerk/nextjs/server";
+import "server-only";
 
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -30,6 +31,7 @@ export function prettyDate(date: string | Date) {
 }
 
 export const checkRole = (role: Roles) => {
+  "use server";
   const { sessionClaims } = auth();
 
   return sessionClaims?.metadata.role === role;

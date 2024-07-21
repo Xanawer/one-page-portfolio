@@ -106,7 +106,7 @@ export default function ChatButton() {
                   {chats.map((chat) => {
                     return (
                       <ChatBubble
-                        key={`chatbubble-${chat.createdAt?.toISOString() ?? "unknown"}`}
+                        key={`chatbubble-${typeof chat.createdAt === "string" ? chat.createdAt : chat.createdAt?.toISOString()}`}
                         message={chat.message ?? ""}
                         sender={chat.isAdmin ? "Admin" : "Me"}
                         createdAt={chat.createdAt ?? new Date()}
