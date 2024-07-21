@@ -31,7 +31,6 @@ export function prettyDate(date: string | Date) {
 }
 
 export const checkRole = (role: Roles) => {
-  "use server";
   const { sessionClaims } = auth();
 
   return sessionClaims?.metadata.role === role;
