@@ -6,7 +6,6 @@ import { chats } from "@simple/server/db/schema";
 import ChatBubble from "./ChatBubble";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { BrutalButton } from "../common/BrutalButton";
-import CatChat from "../common/CatText";
 
 type Chat = typeof chats.$inferInsert;
 

@@ -1,4 +1,4 @@
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@simple/app/_components/common/BrutalTextArea";
 import { Button } from "@/components/ui/button";
 import { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
