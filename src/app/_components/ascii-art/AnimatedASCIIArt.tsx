@@ -26,7 +26,7 @@ type Props = {
 
 export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
   const [frame, setFrame] = useState(frames[0]); // Provide a default value for the frame state variable
-  const opacity = useMotionValue(0.7);
+  const opacity = useMotionValue(0.5);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -39,12 +39,26 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
   }, [frame]);
   return (
     <motion.div
-      style={{ opacity: opacity }}
-      className="flex rotate-180 items-center justify-center overflow-auto"
+      style={{ opacity: 100 }}
+      className="flex h-[100vh] rotate-180 flex-col items-center justify-center overflow-hidden"
     >
-      <pre className="pointer-events-none z-[60] inline-flex w-[600px] border-collapse translate-x-32 rotate-180 items-center text-xs font-extralight leading-[0.9rem] tracking-wider">{`
+      <pre className="pointer-events-none z-[60] inline-flex w-[600px] border-collapse translate-x-32 rotate-180 items-center text-xs font-extralight leading-[0.9rem] tracking-wider opacity-30">{`
          ${shouldAnimate ? frame : frames[55]} 
         `}</pre>
+
+      <pre className="absolute rotate-180 text-xs leading-[0.9rem] text-gray-50 opacity-100">
+        <code>
+          {`
+       dP                                          dP        oo            
+       88                                          88                      
+       88 .d8888b. 88d8b.d8b. .d8888b. .d8888b.    88        dP 88d8b.d8b. 
+       88 88'  \`88 88'\`88'\`88 88ooood8 Y8ooooo.    88        88 88'\`88'\`88 
+88.  .d8P 88.  .88 88  88  88 88.  ...       88    88        88 88  88  88 
+ \`Y8888'  \`88888P8 dP  dP  dP \`88888P' \`88888P'    88888888P dP dP  dP  dP
+ ==========================================================================
+        `}
+        </code>
+      </pre>
     </motion.div>
   );
 }
