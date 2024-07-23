@@ -46,11 +46,12 @@ export default function AnimatedASCIIArt({ shouldAnimate }: Props) {
          ${shouldAnimate ? frame : frames[55]} 
         `}</pre>
 
-      <pre className="absolute rotate-180 text-xs leading-[0.9rem] text-gray-50 opacity-100">
+      <pre className="absolute rotate-180 overflow-scroll text-[0.4rem] leading-[0.7rem] text-gray-50 opacity-100 md:text-[0.6rem] md:leading-[0.9rem] lg:text-xs xl:text-xs">
         <code>
           {`
    $$$$$\\                                                   $$\\       $$\\               \r\n   \\__$$ |                                                  $$ |      \\__|              \r\n      $$ | $$$$$$\\  $$$$$$\\$$$$\\   $$$$$$\\   $$$$$$$\\       $$ |      $$\\ $$$$$$\\$$$$\\  \r\n      $$ | \\____$$\\ $$  _$$  _$$\\ $$  __$$\\ $$  _____|      $$ |      $$ |$$  _$$  _$$\\ \r\n$$\\   $$ | $$$$$$$ |$$ \/ $$ \/ $$ |$$$$$$$$ |\\$$$$$$\\        $$ |      $$ |$$ \/ $$ \/ $$ |\r\n$$ |  $$ |$$  __$$ |$$ | $$ | $$ |$$   ____| \\____$$\\       $$ |      $$ |$$ | $$ | $$ |\r\n\\$$$$$$  |\\$$$$$$$ |$$ | $$ | $$ |\\$$$$$$$\\ $$$$$$$  |      $$$$$$$$\\ $$ |$$ | $$ | $$ |\r\n \\______\/  \\_______|\\__| \\__| \\__| \\_______|\\_______\/       \\________|\\__|\\__| \\__| \\__|
  =======================================================================================
+ This is a small ASCII Art Demo, created by James Lim Zhong Zhi.
         `}
         </code>
       </pre>
