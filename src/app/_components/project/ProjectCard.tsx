@@ -1,9 +1,29 @@
 import Link from "next/link";
 import { BrutalBadge } from "../common/BrutalBadge";
+import { useRef } from "react";
+import { useScroll, motion, useSpring, useTransform } from "framer-motion";
 
 export default function ProjectCard() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ container: containerRef });
+  const scrollY = useTransform(scrollYProgress, [0, 1], [0.01, 1]);
+  const scaleX = useSpring(scrollY, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   return (
-    <div className="w-inherit h-[70vh] scroll-m-0 overflow-x-scroll overflow-y-scroll">
+    <div
+      className="w-inherit relative h-[70vh] overflow-x-scroll overflow-y-scroll"
+      ref={containerRef}
+    >
+      <motion.div
+        className={"sticky left-0 top-0 h-2 w-full origin-[0%] bg-white"}
+        style={{ scaleX }}
+      >
+        {" "}
+      </motion.div>
       <div className="mt-4">
         <header className="italic">Jun 2023 - Dec 2023</header>
         <h2>PropertyGo: iOS Property Purchase App</h2>

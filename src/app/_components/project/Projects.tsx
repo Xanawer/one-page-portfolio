@@ -11,6 +11,7 @@ export default function Projects() {
       className="items-center self-center border-b-2 border-gray-200 py-10 pr-10"
     >
       <FlipLink text="Projects" href="#" />
+      <br />
       <ProjectCard />
     </motion.div>
   );
