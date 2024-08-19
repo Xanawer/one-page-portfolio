@@ -22,41 +22,50 @@ export default function Skills() {
     },
     {
       title: "TypeScript",
-      content: "I love TypeScript.",
+      content:
+        "I love TypeScript for the type-safety it brings to JavaScript, and how it empowers the built in LSP to provide better results.",
     },
     {
       title: "React",
-      content: "I love React.",
+      content:
+        "I love React as one of the fundemental frameworks used in building a responsive website, and the extensive library of tools and extensions available for it.",
     },
     {
       title: "Python",
-      content: "I love Python.",
+      content:
+        "Python is perhaps the most language-like of all programming languages. The way pseudocode flows into Python code is just beautiful.",
     },
     {
       title: "Java",
-      content: "I love Java.",
+      content:
+        "Java is the quintenssential OOP language and provides a solid foundation for building enterprise-level applications.",
     },
     {
       title: "Pandas",
-      content: "I love Pandas.",
+      content:
+        "I love Pandas as an extension of Python and the powerful and fast ways it allows me to manipulate data.",
     },
     {
-      title: "SQL",
-      content: "I love SQL.",
+      title: "SQL/SQL-ORMS",
+      content:
+        "SQL, and ORMS like Prisma, SQLAlchemy or Drizzle, allows for safe and efficient data storage and retrieval.",
     },
     {
       title: "Tailwind CSS",
-      content: "I love Tailwind CSS.",
+      content:
+        "I love Tailwind CSS. Quick and easy to use, and the utility-first approach is a game-changer.",
     },
     {
       title: "HTML",
-      content: "I love HTML.",
+      content:
+        "HTML has a bunch of useful tags that we can use to really make our websites shine.",
     },
     {
       title: "CSS",
-      content: "I love CSS.",
+      content: "CSS is what makes everything beautiful.",
     },
   ];
+
   function accordionGenerator({ title, content }: Skill) {
     return (
       <Accordion
@@ -71,6 +80,7 @@ export default function Skills() {
       </Accordion>
     );
   }
+
   return (
     <motion.div
       initial={{ y: 200, opacity: 0 }}
