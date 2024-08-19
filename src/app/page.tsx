@@ -10,6 +10,7 @@ import Skills from "./_components/skills/Skills";
 import { useInView, motion, useMotionTemplate } from "framer-motion";
 import AnimatedASCIIArt from "./_components/ascii-art/AnimatedASCIIArt";
 import useMouse from "../app/_utils/useMouse";
+import exp from "constants";
 
 export default function HomePage() {
   const [toggleLinks, setToggleLinks] = useState("");
@@ -111,8 +112,7 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             ref={aboutRef}
-            whileInView={aboutInView ? "visible" : "hidden"}
-            className={`mt-16 py-52 transition-all duration-75`}
+            className={`mt-16 py-52 ${experienceInView ? "opacity-0" : "opacity-100"}`}
           >
             <Summary />
           </motion.div>
