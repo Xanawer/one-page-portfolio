@@ -19,9 +19,18 @@ export default function Contact() {
           Interested in working together or just want to say hi? Reach out —
           I&apos;d love to hear from you.
         </p>
-        <Link href="mailto:hello@jameslimzz.me">
-          <DottedButton>Get in touch</DottedButton>
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link href="mailto:hello@jameslimzz.me">
+            <DottedButton>Get in touch</DottedButton>
+          </Link>
+          <Link
+            href="https://www.linkedin.com/in/Xanawer"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <DottedButton>View Resume</DottedButton>
+          </Link>
+        </div>
         <div className="flex flex-col gap-2 pt-2 font-mono text-sm">
           <Link
             href="mailto:hello@jameslimzz.me"

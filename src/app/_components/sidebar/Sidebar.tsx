@@ -71,32 +71,42 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
         </div>
         <motion.div
           variants={motionVariants}
-          className="mt-6 flex w-full items-center justify-start px-10"
+          className="mt-6 flex w-full flex-col items-start gap-4 px-10"
         >
-          <motion.div whileHover={{ y: -10 }}>
-            <Link
-              href="https://www.github.com/Xanawer"
-              className="flex h-8 w-8 items-center justify-center rounded-full"
-            >
-              <GitHub className="opacity-70" />
-            </Link>
-          </motion.div>
-          <motion.div whileHover={{ y: -10 }}>
-            <Link
-              href="https://www.linkedin.com/in/Xanawer"
-              className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
-            >
-              <LinkedIn className="opacity-70" />
-            </Link>
-          </motion.div>
-          <motion.div whileHover={{ y: -10 }} className="h-full w-full">
-            <Link
-              href="https://www.instagram.com/LaZZyBird"
-              className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
-            >
-              <Instagram className="opacity-70" />
-            </Link>
-          </motion.div>
+          <Link
+            href="https://www.linkedin.com/in/Xanawer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-2xl border-2 border-dashed border-white px-4 py-2 font-mono text-xs uppercase transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_white]"
+          >
+            View Resume
+          </Link>
+          <div className="flex items-center justify-start">
+            <motion.div whileHover={{ y: -10 }}>
+              <Link
+                href="https://www.github.com/Xanawer"
+                className="flex h-8 w-8 items-center justify-center rounded-full"
+              >
+                <GitHub className="opacity-70" />
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ y: -10 }}>
+              <Link
+                href="https://www.linkedin.com/in/Xanawer"
+                className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
+              >
+                <LinkedIn className="opacity-70" />
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ y: -10 }} className="h-full w-full">
+              <Link
+                href="https://www.instagram.com/LaZZyBird"
+                className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
+              >
+                <Instagram className="opacity-70" />
+              </Link>
+            </motion.div>
+          </div>
         </motion.div>
         <div className="portfolio-links flex w-full flex-col items-start justify-start px-10 py-20">
           {hoveredLinks("ASCII.", "ascii")}

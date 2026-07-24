@@ -9,6 +9,23 @@ import { Analytics } from "@vercel/analytics/react";
 const siteDescription =
   "Full-stack developer portfolio of James Lim Zhong Zhi — projects, experience, and skills in web development, AI, and mobile apps.";
 
+const siteUrl = "https://www.jameslimzz.me";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: "James Lim Zhong Zhi",
+    url: siteUrl,
+    jobTitle: "Full-Stack Developer",
+    sameAs: [
+      "https://www.linkedin.com/in/Xanawer",
+      "https://github.com/Xanawer",
+    ],
+  },
+};
+
 export const metadata: Metadata = {
   title: "James Lim - Portfolio",
   description: siteDescription,
@@ -16,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "James Lim - Portfolio",
     description: siteDescription,
-    url: "https://www.jameslimzz.me",
+    url: siteUrl,
     siteName: "James Lim Portfolio",
     type: "website",
     images: [
@@ -39,6 +56,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="overflow-clip">
         <ClerkProvider>
           <SpeedInsights />
