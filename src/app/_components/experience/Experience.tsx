@@ -46,7 +46,7 @@ export default function Experience() {
         </div>
       </motion.div>
       <DialogContent className="flex h-[70%] w-full flex-col overflow-y-scroll">
-        {imageData.map((image, index) => (
+        {imageData.map((image) => (
           <Image
             key={image}
             src={`/${image}`}

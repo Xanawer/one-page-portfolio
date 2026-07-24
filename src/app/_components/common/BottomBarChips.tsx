@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 type RefLinks = Record<string, React.RefObject<HTMLDivElement>>;
 
@@ -10,10 +9,7 @@ type Props = {
 };
 
 const ChipTabs = ({ tabs, toggleLinks, refLinks }: Props) => {
-  const [selected, setSelected] = useState(tabs[0]);
-
   const pressChips = (tab: string) => {
-    setSelected(tab);
     refLinks[tab]?.current?.scrollIntoView({
       behavior: "auto",
       block: "center",
@@ -26,7 +22,7 @@ const ChipTabs = ({ tabs, toggleLinks, refLinks }: Props) => {
       {tabs.map((tab) => (
         <Chip
           text={tab}
-          selected={selected === tab}
+          selected={toggleLinks === tab}
           setSelected={pressChips}
           key={tab}
         />

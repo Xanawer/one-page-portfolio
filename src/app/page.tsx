@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Sidebar from "./_components/sidebar/Sidebar";
 import BottomBar from "./_components/sidebar/BottomBar";
@@ -8,8 +9,12 @@ import Experience from "./_components/experience/Experience";
 import Skills from "./_components/skills/Skills";
 import Contact from "./_components/contact/Contact";
 import { useInView, motion, useMotionTemplate } from "framer-motion";
-import AnimatedASCIIArt from "./_components/ascii-art/AnimatedASCIIArt";
 import useMouse from "../app/_utils/useMouse";
+
+const AnimatedASCIIArt = dynamic(
+  () => import("./_components/ascii-art/AnimatedASCIIArt"),
+  { ssr: false },
+);
 
 export default function HomePage() {
   const [toggleLinks, setToggleLinks] = useState("");
@@ -96,6 +101,7 @@ export default function HomePage() {
           <motion.div
             className={`${aboutInView ? "opacity-0" : "opacity-100"} grid`}
             ref={asciiRef}
+            aria-hidden="true"
           >
             <AnimatedASCIIArt shouldAnimate={asciiInView} />
           </motion.div>
