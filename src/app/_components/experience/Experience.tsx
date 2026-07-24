@@ -29,7 +29,7 @@ export default function Experience() {
               </BrutalBadge>
             </DialogTrigger>
             <p className="text-balance py-2 text-xs">
-              Designed and implement an impactful generative AI application
+              Designed and implemented an impactful generative AI application
               while working at Hutchinson Research and Innovation. Application
               designed and tested for use with multiple cross-functional teams
               from HR to Sales. Fully completed a SDLC cycle from starting to

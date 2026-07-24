@@ -46,7 +46,7 @@ export default function ProjectCard() {
           ExpressJS. It is designed to be user-friendly and easy to navigate.
           Users can search for properties based on location, price, and other
           criteria. They can also view images and details of each property, as
-          well as contact the seller directly through the app. ProperyGo
+          well as contact the seller directly through the app. PropertyGo
           automates the process of buying a property in Singapore, making it
           easier and more convenient for users.
         </p>

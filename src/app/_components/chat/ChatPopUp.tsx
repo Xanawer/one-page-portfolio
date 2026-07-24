@@ -19,6 +19,7 @@ export default function ChatButton() {
     try {
       const res = await fetch("/api/chats", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: message }),
       });
       const data: { message: string } = (await res.json()) as {

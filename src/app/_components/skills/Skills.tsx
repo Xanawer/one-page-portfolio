@@ -28,7 +28,7 @@ export default function Skills() {
     {
       title: "React",
       content:
-        "I love React as one of the fundemental frameworks used in building a responsive website, and the extensive library of tools and extensions available for it.",
+        "I love React as one of the fundamental frameworks used in building a responsive website, and the extensive library of tools and extensions available for it.",
     },
     {
       title: "Python",
@@ -38,7 +38,7 @@ export default function Skills() {
     {
       title: "Java",
       content:
-        "Java is the quintenssential OOP language and provides a solid foundation for building enterprise-level applications.",
+        "Java is the quintessential OOP language and provides a solid foundation for building enterprise-level applications.",
     },
     {
       title: "Pandas",

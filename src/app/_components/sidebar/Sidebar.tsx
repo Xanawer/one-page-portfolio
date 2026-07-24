@@ -105,7 +105,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           {hoveredLinks("Experience.", "experience")}
           {hoveredLinks("Projects.", "projects")}
           {hoveredLinks("Skills.", "skills")}
-          {/* {hoveredLinks("Contact.", "contact")} */}
+          {hoveredLinks("Contact.", "contact")}
         </div>
       </div>
       <ChatButton />

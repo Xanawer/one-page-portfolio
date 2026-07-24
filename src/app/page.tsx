@@ -1,16 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import LoremBackground from "./_components/common/LoremIpsumBackground";
 import Sidebar from "./_components/sidebar/Sidebar";
 import BottomBar from "./_components/sidebar/BottomBar";
 import Summary from "./_components/summary/Summary";
 import Projects from "./_components/project/Projects";
 import Experience from "./_components/experience/Experience";
 import Skills from "./_components/skills/Skills";
+import Contact from "./_components/contact/Contact";
 import { useInView, motion, useMotionTemplate } from "framer-motion";
 import AnimatedASCIIArt from "./_components/ascii-art/AnimatedASCIIArt";
 import useMouse from "../app/_utils/useMouse";
-import exp from "constants";
 
 export default function HomePage() {
   const [toggleLinks, setToggleLinks] = useState("");
@@ -38,6 +37,9 @@ export default function HomePage() {
   const skillsInView = useInView(skillsRef, {
     margin: "-50% 0px",
   });
+  const contactInView = useInView(contactRef, {
+    margin: "-50% 0px",
+  });
 
   const refLinks = {
     ascii: asciiRef,
@@ -49,36 +51,24 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    if (aboutInView) {
-      setToggleLinks("about");
-    } else {
-      setToggleLinks("");
-    }
-  }, [aboutInView]);
-
-  useEffect(() => {
-    if (experienceInView) {
-      setToggleLinks("experience");
-    }
-  }, [experienceInView]);
-
-  useEffect(() => {
-    if (projectsInView) {
-      setToggleLinks("projects");
-    }
-  }, [projectsInView]);
-
-  useEffect(() => {
-    if (asciiInView) {
-      setToggleLinks("ascii");
-    }
-  }, [asciiInView]);
-
-  useEffect(() => {
-    if (skillsInView) {
-      setToggleLinks("skills");
-    }
-  }, [skillsInView]);
+    const sections = [
+      { id: "contact", inView: contactInView },
+      { id: "skills", inView: skillsInView },
+      { id: "projects", inView: projectsInView },
+      { id: "experience", inView: experienceInView },
+      { id: "ascii", inView: asciiInView },
+      { id: "about", inView: aboutInView },
+    ];
+    const active = sections.find((section) => section.inView);
+    setToggleLinks(active?.id ?? "");
+  }, [
+    contactInView,
+    skillsInView,
+    projectsInView,
+    experienceInView,
+    asciiInView,
+    aboutInView,
+  ]);
 
   const motionVariants = {
     hidden: { opacity: 0 },
@@ -97,7 +87,6 @@ export default function HomePage() {
           refLinks={refLinks}
         />
         <BottomBar toggleLinks={toggleLinks} refLinks={refLinks} />
-        <LoremBackground />
         <motion.div
           ref={contentRef}
           initial={{ y: 200, opacity: 0 }}
@@ -130,6 +119,9 @@ export default function HomePage() {
           </div>
           <div ref={skillsRef} className={`${skillsInView ? "" : ""} py-52`}>
             <Skills />
+          </div>
+          <div ref={contactRef} id="contact" className="py-52">
+            <Contact />
           </div>
         </motion.div>
         <motion.div
