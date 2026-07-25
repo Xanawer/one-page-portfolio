@@ -1,56 +1,59 @@
 "use client";
 
-import type { chats } from "@simple/server/db/schema";
+import type { ChatMessage, ListView } from "@simple/server/chat";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ChatBubble from "./ChatBubble";
 import { SignedIn, SignedOut, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import { BrutalButton } from "../common/BrutalButton";
 
-type Chat = typeof chats.$inferInsert;
+type ChatDto = Omit<ChatMessage, "createdAt"> & { createdAt: string };
+
+const ERROR_TEXT: Record<string, string> = {
+  rate_limited: "Slow down — try again in a minute.",
+  unauthenticated: "Please sign in to chat.",
+  unauthorized: "You are not allowed to do that.",
+  invalid: "That message cannot be sent.",
+};
 
 export default function ChatButton() {
-  const [chats, setChats] = useState<Chat[]>([]);
+  const [chats, setChats] = useState<ChatDto[]>([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatText, setChatText] = useState("");
+  const [error, setError] = useState("");
   const { isSignedIn } = useAuth();
 
   async function sendChat(message: string) {
-    console.log(message);
+    setError("");
     try {
       const res = await fetch("/api/chats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message }),
+        body: JSON.stringify({ message }),
       });
-      const data: { message: string } = (await res.json()) as {
-        message: string;
-      };
-      console.log(data);
-      setChats((prevChats) => [
-        {
-          message: message,
-          createdAt: new Date(),
-          userId: "me",
-          isAdmin: false,
-        },
-        ...prevChats,
-      ]);
+      if (!res.ok) {
+        const data = (await res.json()) as { reason?: string };
+        setError(ERROR_TEXT[data.reason ?? ""] ?? "Something went wrong.");
+        return;
+      }
+      const chat = (await res.json()) as ChatDto;
+      setChats((prevChats) => [chat, ...prevChats]);
     } catch (e) {
       console.error(e);
+      setError("Something went wrong.");
     }
   }
 
   async function getChats() {
     try {
-      const res = await fetch("/api/chats?user=user&userId=none", {
-        method: "GET",
-      });
-      if (res.status !== 200) {
+      const res = await fetch("/api/chats", { method: "GET" });
+      if (!res.ok) {
         console.log("Error fetching chats.");
-      } else {
-        const data: { chats: Chat[] } = (await res.json()) as { chats: Chat[] };
-        setChats(data.chats);
+        return;
+      }
+      const view = (await res.json()) as ListView;
+      if (view.kind === "own") {
+        setChats(view.chats as unknown as ChatDto[]);
       }
     } catch (e) {
       console.error(e);
@@ -108,11 +111,11 @@ export default function ChatButton() {
                   {chats.map((chat) => {
                     return (
                       <ChatBubble
-                        key={`chatbubble-${typeof chat.createdAt === "string" ? chat.createdAt : chat.createdAt?.toISOString()}`}
-                        message={chat.message ?? ""}
+                        key={`chatbubble-${chat.id}`}
+                        message={chat.message}
                         sender={chat.isAdmin ? "Admin" : "Me"}
-                        createdAt={chat.createdAt ?? new Date()}
-                        isAdmin={chat.isAdmin ?? false}
+                        createdAt={chat.createdAt}
+                        isAdmin={chat.isAdmin}
                       />
                     );
                   })}
@@ -132,6 +135,9 @@ export default function ChatButton() {
             </div>
             <div className="flex h-1/5 flex-row items-center justify-between bg-gray-800 px-3 py-3">
               <div>
+                {error !== "" && (
+                  <p className="pb-1 font-mono text-xs text-red-400">{error}</p>
+                )}
                 <input
                   placeholder="Chat..."
                   title="Chat box."

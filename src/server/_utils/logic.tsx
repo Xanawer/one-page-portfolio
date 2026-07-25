@@ -1,5 +1,3 @@
-import { Roles } from "@simple/app/types/global";
-import { auth } from "@clerk/nextjs/server";
 import "server-only";
 
 export function delay(ms: number) {
@@ -29,9 +27,3 @@ export function prettyDate(date: string | Date) {
           minute: "2-digit",
         });
 }
-
-export const checkRole = (role: Roles) => {
-  const { sessionClaims } = auth();
-
-  return sessionClaims?.metadata.role === role;
-};

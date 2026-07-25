@@ -1,113 +1,56 @@
-//
-import {
-  sendChat,
-  sendChatAsAdmin,
-  getMyChats,
-  getAdminChats,
-  getUserChat,
-} from "@simple/server/api/chat";
-import { z } from "zod";
 import { auth } from "@clerk/nextjs/server";
-import { db } from "@simple/server/db";
-import { chats } from "@simple/server/db/schema";
-import { and, eq, gt } from "drizzle-orm";
+import { z } from "zod";
+import {
+  createChatInbox,
+  type ChatInboxError,
+  type Viewer,
+} from "@simple/server/chat";
+import { createDrizzleStore } from "@simple/server/chat/drizzle-store";
 
-const chatRequestSchema = z.object({
-  message: z.string().trim().min(1).max(1024),
-  role: z.enum(["user", "admin"]).optional().default("user"),
-  userId: z.string().optional(),
+const inbox = createChatInbox(createDrizzleStore());
+
+const sendRequestSchema = z.object({
+  message: z.string(),
+  replyingTo: z.string().optional(),
 });
 
-// Define a type for the chat response
-type ChatResponse = string | { message: string };
+const STATUS_BY_REASON: Record<ChatInboxError, number> = {
+  unauthenticated: 401,
+  unauthorized: 403,
+  rate_limited: 429,
+  invalid: 400,
+};
 
-function isAuthError(e: unknown) {
-  return (
-    e instanceof Error &&
-    (e.message.includes("not found") ||
-      e.message.includes("not authorized") ||
-      e.message.includes("not authenticated"))
-  );
+function currentViewer(): Viewer {
+  const { userId, sessionClaims } = auth();
+  return {
+    userId,
+    role: sessionClaims?.metadata.role === "admin" ? "admin" : "user",
+  };
 }
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const params = url.searchParams;
-  try {
-    if (params.get("user") === "user") {
-      const chats =
-        params.get("userId") === "none"
-          ? await getMyChats()
-          : await getUserChat(params.get("userId")!);
-      return Response.json({ message: "GET /api/chats", chats: chats });
-    } else {
-      const allUserChats = await getAdminChats();
-      return Response.json({ message: "GET /api/chats", chats: allUserChats });
-    }
-  } catch (e) {
-    if (isAuthError(e)) {
-      return new Response("User not authenticated or registered", {
-        status: 401,
-      });
-    }
-    console.error(e);
-    return new Response("Internal server error", { status: 500 });
-  }
+function errorResponse(reason: ChatInboxError) {
+  return Response.json({ reason }, { status: STATUS_BY_REASON[reason] });
+}
+
+export async function GET() {
+  const result = await inbox.list(currentViewer());
+  if (!result.ok) return errorResponse(result.reason);
+  return Response.json(result.view);
 }
 
 export async function POST(request: Request) {
+  let body: z.infer<typeof sendRequestSchema>;
   try {
-    const body: unknown = await request.json();
-    const res = chatRequestSchema.parse(body);
-
-    // Simple rate limit: max 10 messages per user per minute.
-    const { userId } = auth();
-    if (userId) {
-      const recentChats = await db.query.chats.findMany({
-        where: and(
-          eq(chats.userId, userId),
-          gt(chats.createdAt, new Date(Date.now() - 60_000)),
-        ),
-        columns: { id: true },
-      });
-      if (recentChats.length >= 10) {
-        return new Response("Rate limit exceeded. Try again in a minute.", {
-          status: 429,
-        });
-      }
-    }
-
-    let newChatResponse: ChatResponse;
-
-    if (res.role === "admin") {
-      newChatResponse = await sendChatAsAdmin(res.message, res.userId ?? "");
-    } else {
-      newChatResponse = await sendChat(res.message);
-    }
-
-    return Response.json({
-      message:
-        typeof newChatResponse === "string"
-          ? newChatResponse
-          : newChatResponse.message,
-      sentMessage: res.message,
-    });
-  } catch (e) {
-    if (e instanceof z.ZodError) {
-      return Response.json(
-        { message: "Invalid request body", errors: e.errors },
-        { status: 400 },
-      );
-    }
-    if (e instanceof SyntaxError) {
-      return Response.json({ message: "Invalid JSON body" }, { status: 400 });
-    }
-    if (isAuthError(e)) {
-      return new Response("User not authenticated or registered", {
-        status: 401,
-      });
-    }
-    console.error(e);
-    return new Response("Internal server error", { status: 500 });
+    body = sendRequestSchema.parse(await request.json());
+  } catch {
+    return Response.json({ reason: "invalid" }, { status: 400 });
   }
+  const result = await inbox.send(
+    currentViewer(),
+    body.message,
+    body.replyingTo,
+  );
+  if (!result.ok) return errorResponse(result.reason);
+  return Response.json(result.chat);
 }
