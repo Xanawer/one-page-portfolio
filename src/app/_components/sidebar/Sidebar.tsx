@@ -3,7 +3,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Instagram, Github, Linkedin } from "lucide-react";
-import ChatButton from "../chat/ChatPopUp";
 import type { Section, SectionId } from "../sections/sections";
 
 type Props = {
@@ -14,27 +13,41 @@ type Props = {
 
 const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
   const motionVariants = {
-    normal: { scale: 1 },
+    normal: { scale: 1, width: 10 },
     hovered: { scale: 1.05 },
     hoverLine: { width: 100 },
+  };
+  const linkVariants = {
+    normal: { x: 0 },
+    hoverLine: { x: 90 },
   };
 
   function hoveredLinks(name: string, link: SectionId) {
     return (
-      <motion.div whileHover={"hoverLine"} className={"flex flex-row py-1"}>
+      <motion.div whileHover="hoverLine" className="relative w-full py-1">
         <motion.div
+          data-sidebar-line={link}
           initial={{ width: 10 }}
           variants={motionVariants}
-          className="mr-2 mt-[2.2rem] h-0 border-2 border-white"
+          className="absolute bottom-[7px] left-0 h-0 border-2 border-white"
           animate={activeId === link ? "hoverLine" : "normal"}
-        ></motion.div>
-        <Link
-          href={`#${link}`}
-          className="mt-6 font-mono text-sm"
-          onClick={() => scrollTo(link)}
+        />
+        <motion.div
+          variants={linkVariants}
+          animate={activeId === link ? "hoverLine" : "normal"}
+          className="ml-[18px] mt-6 w-fit"
         >
-          {name}
-        </Link>
+          <Link
+            href={`#${link}`}
+            className="font-mono text-sm"
+            onClick={(event) => {
+              event.preventDefault();
+              scrollTo(link);
+            }}
+          >
+            {name}
+          </Link>
+        </motion.div>
       </motion.div>
     );
   }
@@ -45,9 +58,9 @@ const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
       animate={{ x: 0 }}
       exit={{ x: "-40rem" }}
       transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
-      className="sticky bottom-0 left-0 top-0 z-[99] hidden h-screen w-[40%] items-center justify-center shadow-lg md:flex lg:flex xl:flex 2xl:flex"
+      className="fixed inset-y-0 left-0 z-[99] hidden w-72 overflow-y-auto shadow-lg md:flex lg:w-80"
     >
-      <div className="flex h-full w-full flex-col items-center justify-center">
+      <div className="flex min-h-full w-full flex-col items-center justify-center py-8">
         <div className="flex flex-col items-start justify-start px-10 *:py-2">
           <h1 className="font-mono text-sm font-semibold">
             <i> James </i> Lim Zhong Zhi
@@ -102,7 +115,7 @@ const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
             </motion.div>
           </div>
         </motion.div>
-        <div className="portfolio-links flex w-full flex-col items-start justify-start px-10 py-20">
+        <div className="portfolio-links flex w-full flex-col items-start justify-start px-10 py-8 lg:py-12">
           {sections.map((section) => (
             <React.Fragment key={section.id}>
               {hoveredLinks(section.label, section.id)}
@@ -110,7 +123,6 @@ const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
           ))}
         </div>
       </div>
-      <ChatButton />
     </motion.div>
   );
 };

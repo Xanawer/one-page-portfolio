@@ -12,11 +12,11 @@ import { SKILLS, type SkillEntry } from "../content/content";
 function SkillAccordion({ title, content }: SkillEntry) {
   return (
     <Accordion
-      className="col-span-1 w-full lg:w-[unset]"
+      className="w-full"
       type="single"
       collapsible
     >
-      <AccordionItem className="max-w-full lg:w-[500px]" value="item-1">
+      <AccordionItem className="w-full max-w-full" value="item-1">
         <AccordionTrigger className="text-black">{title}</AccordionTrigger>
         <AccordionContent className="text-black">{content}</AccordionContent>
       </AccordionItem>
@@ -29,11 +29,12 @@ export default function Skills() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      className="my-[10rem] flex min-w-full flex-col overflow-y-scroll border-b-2 border-gray-200 py-10 pr-[6rem]"
+      viewport={{ amount: 0.15 }}
+      className="portfolio-panel flex min-w-0 flex-col"
     >
       <FlipLink text="Skills" href="#" />
       <br />
-      <div className="row-auto mt-2 grid h-[50vh] grid-flow-row gap-4 overflow-y-scroll sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+      <div className="mt-2 grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-2">
         {SKILLS.map((skill) => (
           <div key={skill.title}>
             <SkillAccordion title={skill.title} content={skill.content} />

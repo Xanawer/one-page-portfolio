@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    @apply bg-shell;
+  }
+
+  body {
+    @apply min-w-0 overflow-x-hidden;
+  }
+}
+
+@layer components {
+  .portfolio-section {
+    @apply w-full scroll-mt-6 py-16 sm:py-20 md:flex md:min-h-dvh md:scroll-mt-0 md:flex-col md:justify-center lg:py-28;
+  }
+
+  .portfolio-panel {
+    @apply min-w-0 border-b-2 border-gray-200 py-8 sm:py-10;
+  }
+}
+
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   display: none;
@@ -15,4 +35,19 @@
   opacity: 0.05;
   background-image: url("/noise.png");
   background-repeat: repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

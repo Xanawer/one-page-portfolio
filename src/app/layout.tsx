@@ -62,7 +62,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="overflow-clip bg-shell">
+      <body className="bg-shell">
         <ClerkProvider>
           <SpeedInsights />
           <Analytics />

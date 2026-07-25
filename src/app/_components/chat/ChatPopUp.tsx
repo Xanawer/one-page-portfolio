@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChatMessage, ListView } from "@simple/server/chat";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ChatBubble from "./ChatBubble";
 import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
@@ -21,7 +21,16 @@ export default function ChatButton() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatText, setChatText] = useState("");
   const [error, setError] = useState("");
+  const [isCompact, setIsCompact] = useState(true);
   const { isSignedIn } = useAuth();
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px), (pointer: coarse)");
+    const update = () => setIsCompact(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
 
   async function sendChat(message: string) {
     setError("");
@@ -72,16 +81,17 @@ export default function ChatButton() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          drag={true}
-          dragConstraints={{ top: -200, right: 0, bottom: 0, left: -100 }}
+          drag={!isCompact}
+          dragConstraints={{ top: -160, right: 16, bottom: 0, left: 0 }}
           dragElastic={0.1}
-          className="fixed bottom-0 left-1 z-[999] overflow-auto p-4"
+          className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 z-[999] max-w-full p-3 md:bottom-0 md:p-4"
         >
           <div
-            className={`dark flex h-[20rem] max-h-[70vh] min-h-[16rem] w-[32rem] min-w-[32rem] resize-y flex-col justify-between overflow-hidden rounded-base border-2 border-border bg-white font-mono shadow-light transition duration-300 dark:border-darkBorder dark:bg-darkBg dark:shadow-dark`}
+            data-testid="chat-panel"
+            className="dark flex h-[min(28rem,calc(100dvh-6rem-env(safe-area-inset-bottom)))] min-h-[16rem] w-[calc(100vw-1.5rem)] max-w-lg flex-col justify-between overflow-hidden rounded-base border-2 border-border bg-white font-mono shadow-light transition duration-300 dark:border-darkBorder dark:bg-darkBg dark:shadow-dark md:h-80 md:w-[32rem] md:resize-y"
           >
-            <div className="flex h-1/5 flex-row items-center justify-between border-b-2 border-border bg-main px-6 py-3 dark:border-darkBorder">
-              <div className="w-full">
+            <div className="flex min-h-16 shrink-0 flex-row items-center justify-between gap-2 border-b-2 border-border bg-main px-3 py-2 dark:border-darkBorder sm:px-6 sm:py-3">
+              <div className="min-w-0 flex-1">
                 {isSignedIn ? (
                   <UserButton
                     showName
@@ -106,7 +116,7 @@ export default function ChatButton() {
                 Close
               </BrutalButton>
             </div>
-            <div className="flex h-3/5 flex-col-reverse overflow-y-auto bg-bg dark:bg-darkBg">
+            <div className="flex min-h-0 flex-1 flex-col-reverse overflow-y-auto bg-bg dark:bg-darkBg">
               {isSignedIn ? (
                 <>
                   {chats.length === 0 && (
@@ -139,12 +149,12 @@ export default function ChatButton() {
                 </div>
               )}
             </div>
-            <div className="flex h-1/5 flex-row items-center justify-between border-t-2 border-border bg-white px-3 py-3 dark:border-darkBorder dark:bg-darkBg">
+            <div className="flex shrink-0 flex-row items-center justify-between border-t-2 border-border bg-white px-3 py-3 dark:border-darkBorder dark:bg-darkBg">
               <div className="flex w-full flex-col">
                 {error !== "" && (
                   <p className="pb-1 font-mono text-xs text-red-500">{error}</p>
                 )}
-                <div className="flex flex-row items-center">
+                <div className="flex min-w-0 flex-row items-center">
                   <input
                     placeholder={isSignedIn ? "Chat..." : "Sign in to chat..."}
                     title="Chat box."
@@ -163,7 +173,7 @@ export default function ChatButton() {
                     }}
                   ></input>
                   <BrutalButton
-                    className="ml-3 font-mono"
+                    className="ml-2 shrink-0 font-mono sm:ml-3"
                     size="sm"
                     title="Send Chat"
                     disabled={!isSignedIn}
@@ -186,7 +196,7 @@ export default function ChatButton() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { delay: 0.25 } }}
           exit={{ opacity: 0 }}
-          className="fixed bottom-0 left-0 z-[40] p-4"
+          className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 z-[90] p-3 md:bottom-0 md:p-4"
         >
           <div
             className="absolute bottom-0 left-0"

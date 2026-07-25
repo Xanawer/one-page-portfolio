@@ -13,9 +13,10 @@ export default function Experience() {
           <motion.div
             initial={{ y: 200, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            className="flex flex-row items-center justify-evenly border-b-2 border-gray-200"
+            viewport={{ amount: 0.25 }}
+            className="portfolio-panel flex min-w-0 items-center"
           >
-            <div className="py-10 pr-[6rem]">
+            <div className="min-w-0">
               <FlipLink text="Experience" href="#" />
               <br></br>
               <div className="experience-card">
@@ -38,15 +39,15 @@ export default function Experience() {
               </div>
             </div>
           </motion.div>
-          <DialogContent className="flex h-[70%] w-full flex-col overflow-y-scroll">
+          <DialogContent className="flex max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-3xl flex-col overflow-y-auto p-4 sm:p-6">
             {experience.gallery.map((image) => (
               <Image
                 key={image}
                 src={`/${image}`}
-                layout="responsive"
                 width={400}
                 height={200}
-                className="rounded-xl"
+                sizes="(max-width: 768px) calc(100vw - 4rem), 720px"
+                className="h-auto w-full rounded-md"
                 alt={`${experience.title} Photo`}
               />
             ))}

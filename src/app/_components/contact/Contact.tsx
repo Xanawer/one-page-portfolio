@@ -10,7 +10,8 @@ export default function Contact() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      className="flex flex-col border-b-2 border-gray-200 py-10 pr-[6rem]"
+      viewport={{ amount: 0.25 }}
+      className="portfolio-panel flex min-w-0 flex-col"
     >
       <FlipLink text="Contact" href="#contact" />
       <br />
@@ -34,21 +35,21 @@ export default function Contact() {
         <div className="flex flex-col gap-2 pt-2 font-mono text-sm">
           <Link
             href="mailto:hello@jameslimzz.me"
-            className="flex items-center gap-2 opacity-80 transition-opacity hover:opacity-100"
+            className="flex min-w-0 items-center gap-2 break-all opacity-80 transition-opacity hover:opacity-100"
           >
             <Mail size={20} />
             hello@jameslimzz.me
           </Link>
           <Link
             href="https://www.linkedin.com/in/Xanawer"
-            className="flex items-center gap-2 opacity-80 transition-opacity hover:opacity-100"
+            className="flex min-w-0 items-center gap-2 break-all opacity-80 transition-opacity hover:opacity-100"
           >
             <Linkedin size={20} />
             linkedin.com/in/Xanawer
           </Link>
           <Link
             href="https://www.github.com/Xanawer"
-            className="flex items-center gap-2 opacity-80 transition-opacity hover:opacity-100"
+            className="flex min-w-0 items-center gap-2 break-all opacity-80 transition-opacity hover:opacity-100"
           >
             <Github size={20} />
             github.com/Xanawer

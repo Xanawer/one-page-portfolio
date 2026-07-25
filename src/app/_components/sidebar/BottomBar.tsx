@@ -11,9 +11,12 @@ type Props = {
 // This component should replace the Sidebar component in src/app/_components/sidebar/Sidebar.tsx when in mobile mode.
 export default function BottomBar({ sections, activeId, scrollTo }: Props) {
   return (
-    <nav className="border-border dark:border-darkBorder dark:bg-darkBg m500:h-16 shadow-t fixed bottom-0 left-0 z-20 mx-auto flex h-[88px] w-full items-center overflow-scroll scroll-smooth rounded-t-lg border-b-4 bg-slate-200 px-5 sm:flex md:hidden lg:hidden xl:hidden 2xl:hidden">
-      <div className="dark:text-darkText text-text mx-auto flex max-h-full w-[1300px] max-w-full items-center justify-center space-x-5">
-        <header className="border-r-2 border-r-black font-mono">
+    <nav
+      aria-label="Portfolio sections"
+      className="shadow-t fixed inset-x-0 bottom-0 z-[100] flex min-h-16 items-center border-t-2 border-border bg-slate-200 px-3 pb-[env(safe-area-inset-bottom)] md:hidden"
+    >
+      <div className="text-text flex min-w-0 flex-1 items-center gap-3">
+        <header className="shrink-0 border-r-2 border-r-black font-mono">
           J.LZZ&nbsp;
         </header>
         <ChipTabs sections={sections} activeId={activeId} scrollTo={scrollTo} />

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { BrutalBadge } from "../common/BrutalBadge";
-import { useRef } from "react";
-import { useScroll, motion, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { PROJECTS, type ProjectEntry } from "../content/content";
 
 function Project({ project }: { project: ProjectEntry }) {
@@ -23,26 +22,14 @@ function Project({ project }: { project: ProjectEntry }) {
 }
 
 export default function ProjectCard() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ container: containerRef });
-  const scrollY = useTransform(scrollYProgress, [0, 1], [0.01, 1]);
-  const scaleX = useSpring(scrollY, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
   return (
-    <div
-      className="w-inherit relative h-[70vh] overflow-x-scroll overflow-y-scroll"
-      ref={containerRef}
-    >
+    <div className="relative min-w-0">
       <motion.div
-        className={"sticky left-0 top-0 h-2 w-full origin-[0%] bg-white"}
-        style={{ scaleX }}
-      >
-        {" "}
-      </motion.div>
+        className="mb-6 h-1 w-full origin-left bg-white"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+      />
       {PROJECTS.map((project) => (
         <Project key={project.title} project={project} />
       ))}

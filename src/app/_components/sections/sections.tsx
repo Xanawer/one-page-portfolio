@@ -12,12 +12,16 @@ export type Section = {
 };
 
 export const SECTIONS: Section[] = [
-  { id: "ascii", label: "ASCII.", inViewMargin: "-50% 0px" },
-  { id: "about", label: "About.", inViewMargin: "-50% 0px" },
-  { id: "experience", label: "Experience.", inViewMargin: "-50% 0px" },
-  { id: "projects", label: "Projects.", inViewMargin: "-60% 0px" },
-  { id: "skills", label: "Skills.", inViewMargin: "-50% 0px" },
-  { id: "contact", label: "Contact.", inViewMargin: "-50% 0px" },
+  { id: "ascii", label: "ASCII.", inViewMargin: "-35% 0px -55% 0px" },
+  { id: "about", label: "About.", inViewMargin: "-35% 0px -55% 0px" },
+  {
+    id: "experience",
+    label: "Experience.",
+    inViewMargin: "-35% 0px -55% 0px",
+  },
+  { id: "projects", label: "Projects.", inViewMargin: "-35% 0px -55% 0px" },
+  { id: "skills", label: "Skills.", inViewMargin: "-35% 0px -55% 0px" },
+  { id: "contact", label: "Contact.", inViewMargin: "-35% 0px -55% 0px" },
 ];
 
 const ACTIVE_PRIORITY: SectionId[] = [
@@ -68,10 +72,14 @@ export function useSections() {
   const activeId = ACTIVE_PRIORITY.find((id) => inViewIds.has(id)) ?? null;
 
   function scrollTo(id: SectionId) {
-    refs.current[id].current?.scrollIntoView({
+    const section = refs.current[id].current;
+    if (!section) return;
+
+    window.history.replaceState(null, "", `#${id}`);
+    section.scrollIntoView({
       behavior: "auto",
-      block: "center",
-      inline: "center",
+      block: "start",
+      inline: "nearest",
     });
   }
 

@@ -9,7 +9,7 @@ type Props = {
 
 const ChipTabs = ({ sections, activeId, scrollTo }: Props) => {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto py-2">
       {sections.map((section) => (
         <Chip
           text={section.label.replace(/\.$/, "")}
@@ -36,7 +36,7 @@ const Chip = ({ text, selected, onSelect }: ChipProps) => {
         selected
           ? "text-white"
           : "text-darkBg hover:bg-slate-700 hover:text-slate-200"
-      } relative rounded-md px-2.5 py-0.5 text-sm transition-colors`}
+      } relative shrink-0 rounded-md px-2.5 py-1 text-sm transition-colors`}
     >
       <span className="relative z-10">{text}</span>
       {selected && (
