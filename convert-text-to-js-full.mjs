@@ -65,7 +65,7 @@ async function processDirectory() {
     })
     .map(([_, value]) => value);
 
-  const moduleSource = `export default ${JSON.stringify(sortedArtArray, null, 2)};\n`;
+  const json = `${JSON.stringify(sortedArtArray)}\n`;
 
   try {
     const outputDir = path.dirname(outputFile);
@@ -73,8 +73,8 @@ async function processDirectory() {
       fs.mkdir(outputDir, { recursive: true }),
     );
 
-    await writeFile(outputFile, moduleSource, encodingOpts);
-    console.log(`Text art module written to: ${outputFile}`);
+    await writeFile(outputFile, json, encodingOpts);
+    console.log(`Frames JSON written to: ${outputFile}`);
   } catch (error) {
     console.error(`Error writing output file: ${error.message}`);
     console.error(`Attempted to write to: ${outputFile}`);

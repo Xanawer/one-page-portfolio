@@ -47,7 +47,7 @@ const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
       transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
       className="sticky bottom-0 left-0 top-0 z-[99] hidden h-screen w-[40%] items-center justify-center shadow-lg md:flex lg:flex xl:flex 2xl:flex"
     >
-      <div className="mt-10 flex h-full w-full flex-col items-center justify-center">
+      <div className="flex h-full w-full flex-col items-center justify-center">
         <div className="flex flex-col items-start justify-start px-10 *:py-2">
           <h1 className="font-mono text-sm font-semibold">
             <i> James </i> Lim Zhong Zhi

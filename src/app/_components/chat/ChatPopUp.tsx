@@ -48,7 +48,10 @@ export default function ChatButton() {
     try {
       const res = await fetch("/api/chats", { method: "GET" });
       if (!res.ok) {
-        console.log("Error fetching chats.");
+        const data = (await res.json().catch(() => ({}))) as {
+          reason?: string;
+        };
+        setError(ERROR_TEXT[data.reason ?? ""] ?? "Couldn't load messages.");
         return;
       }
       const view = (await res.json()) as ListView;
@@ -57,6 +60,7 @@ export default function ChatButton() {
       }
     } catch (e) {
       console.error(e);
+      setError("Couldn't load messages.");
     }
   }
 
@@ -78,35 +82,43 @@ export default function ChatButton() {
           className="fixed bottom-0 left-1 z-[999] overflow-auto p-4"
         >
           <div
-            className={`flex h-[16rem] w-[32rem] min-w-[32rem] flex-col justify-between overflow-clip rounded-2xl bg-white shadow-2xl transition duration-300`}
+            className={`dark flex h-[20rem] max-h-[70vh] min-h-[16rem] w-[32rem] min-w-[32rem] resize-y flex-col justify-between overflow-hidden rounded-base border-2 border-border bg-white font-mono shadow-light transition duration-300 dark:border-darkBorder dark:bg-darkBg dark:shadow-dark`}
           >
-            <div className="flex h-1/5 flex-row justify-between bg-gradient-to-br from-gray-800 to-gray-600 px-6 py-3">
+            <div className="flex h-1/5 flex-row items-center justify-between border-b-2 border-border bg-main px-6 py-3 dark:border-darkBorder">
               <div className="w-full">
                 <SignedIn>
                   <UserButton
                     showName
                     appearance={{
                       elements: {
-                        userButtonOuterIdentifier: "text-white font-mono",
+                        userButtonOuterIdentifier: "text-text font-heading font-mono",
                       },
                     }}
                   ></UserButton>
                 </SignedIn>
                 <SignedOut>
-                  <h2> Chat with Me: </h2>
+                  <h2 className="font-heading text-text">Chat with Me:</h2>
                 </SignedOut>
               </div>
-              <p
-                className="font-button cursor-pointer text-white"
+              <BrutalButton
+                variant="neutral"
+                size="sm"
                 onClick={() => {
                   setIsChatOpen(false);
                 }}
               >
                 Close
-              </p>
+              </BrutalButton>
             </div>
-            <div className="flex h-3/5 flex-col-reverse overflow-y-auto bg-gray-200">
+            <div className="bg-bg flex h-3/5 flex-col-reverse overflow-y-auto dark:bg-darkBg">
               <SignedIn>
+                {chats.length === 0 && (
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-text/60 dark:text-darkText/60 text-center font-mono text-xs italic">
+                      No messages yet — say hi!
+                    </p>
+                  </div>
+                )}
                 <AnimatePresence>
                   {chats.map((chat) => {
                     return (
@@ -122,49 +134,53 @@ export default function ChatButton() {
                 </AnimatePresence>
               </SignedIn>
               <SignedOut>
-                <br />
-                <SignInButton>
-                  <BrutalButton className="w-[50%] self-center font-mono">
-                    Sign In
-                  </BrutalButton>
-                </SignInButton>
-                <p className="text-center font-mono text-black">
-                  Please sign in to chat.
-                </p>
+                <div className="flex h-full flex-col items-center justify-center gap-4">
+                  <p className="text-text dark:text-darkText text-center font-mono">
+                    Please sign in to chat.
+                  </p>
+                  <SignInButton>
+                    <BrutalButton className="font-mono">Sign In</BrutalButton>
+                  </SignInButton>
+                </div>
               </SignedOut>
             </div>
-            <div className="flex h-1/5 flex-row items-center justify-between bg-gray-800 px-3 py-3">
-              <div>
+            <div className="flex h-1/5 flex-row items-center justify-between border-t-2 border-border bg-white px-3 py-3 dark:border-darkBorder dark:bg-darkBg">
+              <div className="flex w-full flex-col">
                 {error !== "" && (
-                  <p className="pb-1 font-mono text-xs text-red-400">{error}</p>
+                  <p className="pb-1 font-mono text-xs text-red-500">{error}</p>
                 )}
-                <input
-                  placeholder="Chat..."
-                  title="Chat box."
-                  type="text"
-                  className="w-[26rem] rounded-full px-2 text-black"
-                  value={chatText}
-                  onChange={(e) => {
-                    setChatText(e.target.value);
-                  }}
-                  onKeyUp={(e) => {
-                    if (e.key === "Enter" && chatText.trim() !== "") {
+                <div className="flex flex-row items-center">
+                  <input
+                    placeholder={isSignedIn ? "Chat..." : "Sign in to chat..."}
+                    title="Chat box."
+                    type="text"
+                    disabled={!isSignedIn}
+                    className="rounded-base border-border text-text font-base dark:placeholder:text-darkText/50 w-full flex-1 border-2 bg-white px-2 py-1 font-mono placeholder:text-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-darkBorder dark:bg-darkBg dark:text-darkText"
+                    value={chatText}
+                    onChange={(e) => {
+                      setChatText(e.target.value);
+                    }}
+                    onKeyUp={(e) => {
+                      if (e.key === "Enter" && chatText.trim() !== "") {
+                        void sendChat(chatText);
+                        setChatText("");
+                      }
+                    }}
+                  ></input>
+                  <BrutalButton
+                    className="ml-3 font-mono"
+                    size="sm"
+                    title="Send Chat"
+                    disabled={!isSignedIn}
+                    onClick={() => {
+                      if (chatText.trim() === "") return;
                       void sendChat(chatText);
                       setChatText("");
-                    }
-                  }}
-                ></input>
-                <button
-                  className="ml-5 h-full self-center rounded-full"
-                  title="Send Chat"
-                  onClick={() => {
-                    if (chatText.trim() === "") return;
-                    void sendChat(chatText);
-                    setChatText("");
-                  }}
-                >
-                  <p className="font-button text-white">Send</p>
-                </button>
+                    }}
+                  >
+                    Send
+                  </BrutalButton>
+                </div>
               </div>
             </div>
           </div>

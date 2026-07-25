@@ -26,8 +26,8 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
   isAdmin,
 }) => {
   const messageClass = isAdmin
-    ? "bg-blue-500 rounded-l-3xl rounded-tr-xl px-3 py-1 mr-1 text-end w-fit text-black"
-    : "mr-6 rounded-r-3xl rounded-tl-xl bg-white px-2 py-1 ml-1 w-fit text-black";
+    ? "bg-main text-text border-2 border-border dark:border-darkBorder rounded-base shadow-light dark:shadow-dark px-3 py-2 mr-1 text-end w-fit"
+    : "bg-white dark:bg-darkBg text-text dark:text-darkText border-2 border-border dark:border-darkBorder rounded-base shadow-light dark:shadow-dark px-3 py-2 mr-6 ml-1 w-fit";
 
   const date = prettyDate(createdAt);
 
@@ -47,7 +47,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({
       >
         <div className={messageClass}>{message}</div>
         <div
-          className={`sender px-2 text-sm italic text-gray-400 ${isAdmin ? "text-right" : "text-left"}`}
+          className={`sender px-2 text-xs italic text-text/60 dark:text-darkText/60 ${isAdmin ? "text-right" : "text-left"}`}
         >
           {sender} {date}
         </div>

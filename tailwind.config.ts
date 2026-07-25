@@ -39,6 +39,9 @@ const config = {
         overlay: "rgba(0,0,0,0.8)",
         // background color overlay for alert dialogs, modals, etc.
 
+        // page shell
+        shell: "#0e0b1e",
+
         // light mode
         bg: "#dfe5f2",
         text: "#000",

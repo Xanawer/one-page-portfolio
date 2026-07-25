@@ -29,14 +29,14 @@ export default function HomePage() {
     <>
       <motion.main
         variants={motionVariants}
-        className="min-w-screen flex h-[100vh] min-h-screen flex-row items-center justify-end bg-[#15162c] text-white"
+        className="min-w-screen flex h-[100vh] min-h-screen flex-row items-center justify-end bg-shell text-white"
       >
         <Sidebar sections={sections} activeId={activeId} scrollTo={scrollTo} />
         <BottomBar sections={sections} activeId={activeId} scrollTo={scrollTo} />
         <motion.div
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white *:overflow-x-scroll sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
+          className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-shell font-mono text-white *:overflow-x-scroll sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
         >
           <motion.div
             className={`${isInView("about") ? "opacity-0" : "opacity-100"} grid`}
@@ -64,12 +64,16 @@ export default function HomePage() {
             <Contact />
           </div>
         </motion.div>
+        <div className="pointer-events-none fixed inset-0 z-[1] bg-[linear-gradient(rgba(0,240,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.03)_1px,transparent_1px)] bg-[size:44px_44px]" />
+        <div className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(900px_at_15%_85%,rgba(255,42,109,0.09),transparent_70%)]" />
         <motion.div
           className="cursor-anim z-1 pointer-events-none fixed inset-0 left-0 top-0"
           style={{
-            background: useMotionTemplate`radial-gradient(600px at ${x}px ${y}px, rgba(21, 22, 150, 0.2), transparent 80%)`,
+            background: useMotionTemplate`radial-gradient(600px at ${x}px ${y}px, rgba(0, 240, 255, 0.12), transparent 80%)`,
           }}
         />
+        <div className="pointer-events-none fixed inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.45)_100%)]" />
+        <div className="noise-overlay" />
       </motion.main>
     </>
   );

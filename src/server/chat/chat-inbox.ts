@@ -33,6 +33,11 @@ export function createChatInbox(store: ChatStore) {
         return { ok: false as const, reason: "unauthorized" as const };
       }
       if (viewer.role !== "admin") {
+        // NOTE: this count-then-insert is intentionally non-atomic. Two
+        // concurrent requests can both read a count below the limit and both
+        // insert, briefly exceeding RATE_LIMIT_MAX. This is acceptable for a
+        // low-traffic portfolio chat; tighten with a DB-side atomic check if
+        // abuse ever becomes a concern.
         const since = new Date(Date.now() - RATE_LIMIT_WINDOW_MS);
         const recent = await store.countRecent(viewer.userId, since);
         if (recent >= RATE_LIMIT_MAX) {
