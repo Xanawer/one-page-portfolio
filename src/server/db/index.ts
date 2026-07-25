@@ -1,5 +1,8 @@
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { env } from "@simple/env";
 import * as schema from "./schema";
-import { drizzle } from "drizzle-orm/vercel-postgres";
-import { sql } from "@vercel/postgres";
+
+const sql = neon(env.DATABASE_URL);
 
 export const db = drizzle(sql, { schema });
