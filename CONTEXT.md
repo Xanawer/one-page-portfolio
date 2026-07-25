@@ -11,3 +11,4 @@ Domain glossary for one-page-portfolio.
 ## Portfolio sections
 
 - **Section registry** — the module (`src/app/_components/sections/`) that owns the portfolio's sections as data: ordered ids, labels, and in-view margins. Its `useSections()` hook resolves which section is active and hands the page refs, `scrollTo`, and `isInView`; Sidebar and BottomBar render from the same registry, so adding a section is a one-line change.
+- **Portfolio content** — the module (`src/app/_components/content/`) that owns the portfolio's entries as typed data: `PROJECTS`, `EXPERIENCES`, `SKILLS`. Renderers map over it; editing an entry never touches rendering code.
