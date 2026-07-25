@@ -1,30 +1,21 @@
 import { motion } from "framer-motion";
-
-type RefLinks = Record<string, React.RefObject<HTMLDivElement>>;
+import type { Section, SectionId } from "../sections/sections";
 
 type Props = {
-  toggleLinks: string;
-  refLinks: RefLinks;
-  tabs: string[];
+  sections: Section[];
+  activeId: SectionId | null;
+  scrollTo: (id: SectionId) => void;
 };
 
-const ChipTabs = ({ tabs, toggleLinks, refLinks }: Props) => {
-  const pressChips = (tab: string) => {
-    refLinks[tab]?.current?.scrollIntoView({
-      behavior: "auto",
-      block: "center",
-      inline: "center",
-    });
-  };
-
+const ChipTabs = ({ sections, activeId, scrollTo }: Props) => {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {tabs.map((tab) => (
+      {sections.map((section) => (
         <Chip
-          text={tab}
-          selected={toggleLinks === tab}
-          setSelected={pressChips}
-          key={tab}
+          text={section.label.replace(/\.$/, "")}
+          selected={activeId === section.id}
+          onSelect={() => scrollTo(section.id)}
+          key={section.id}
         />
       ))}
     </div>
@@ -34,22 +25,20 @@ const ChipTabs = ({ tabs, toggleLinks, refLinks }: Props) => {
 type ChipProps = {
   text: string;
   selected: boolean;
-  setSelected: (text: string) => void;
+  onSelect: () => void;
 };
 
-const Chip = ({ text, selected, setSelected }: ChipProps) => {
+const Chip = ({ text, selected, onSelect }: ChipProps) => {
   return (
     <button
-      onClick={() => setSelected(text)}
+      onClick={onSelect}
       className={`${
         selected
           ? "text-white"
           : "text-darkBg hover:bg-slate-700 hover:text-slate-200"
       } relative rounded-md px-2.5 py-0.5 text-sm transition-colors`}
     >
-      <span className="relative z-10 capitalize">
-        {text === "ascii" ? "ASCII" : text}
-      </span>
+      <span className="relative z-10">{text}</span>
       {selected && (
         <motion.span
           layoutId="pill-tab"

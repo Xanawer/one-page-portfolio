@@ -1,0 +1,95 @@
+"use client";
+
+import { useEffect, useRef, useState, type RefObject } from "react";
+
+export type SectionId =
+  | "ascii"
+  | "about"
+  | "experience"
+  | "projects"
+  | "skills"
+  | "contact";
+
+export type Section = {
+  id: SectionId;
+  label: string;
+  inViewMargin: string;
+};
+
+export const SECTIONS: Section[] = [
+  { id: "ascii", label: "ASCII.", inViewMargin: "-50% 0px" },
+  { id: "about", label: "About.", inViewMargin: "-50% 0px" },
+  { id: "experience", label: "Experience.", inViewMargin: "-50% 0px" },
+  { id: "projects", label: "Projects.", inViewMargin: "-60% 0px" },
+  { id: "skills", label: "Skills.", inViewMargin: "-50% 0px" },
+  { id: "contact", label: "Contact.", inViewMargin: "-50% 0px" },
+];
+
+const ACTIVE_PRIORITY: SectionId[] = [
+  "contact",
+  "skills",
+  "projects",
+  "experience",
+  "ascii",
+  "about",
+];
+
+export function useSections() {
+  const refs = useRef<Record<SectionId, RefObject<HTMLDivElement>>>({
+    ascii: { current: null },
+    about: { current: null },
+    experience: { current: null },
+    projects: { current: null },
+    skills: { current: null },
+    contact: { current: null },
+  });
+  const [inViewIds, setInViewIds] = useState<ReadonlySet<SectionId>>(
+    new Set(),
+  );
+
+  useEffect(() => {
+    const observers = SECTIONS.map((section) => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry) return;
+          setInViewIds((prev) => {
+            const next = new Set(prev);
+            if (entry.isIntersecting) {
+              next.add(section.id);
+            } else {
+              next.delete(section.id);
+            }
+            return next;
+          });
+        },
+        { rootMargin: section.inViewMargin },
+      );
+      const element = refs.current[section.id].current;
+      if (element) observer.observe(element);
+      return observer;
+    });
+    return () => observers.forEach((observer) => observer.disconnect());
+  }, []);
+
+  const activeId =
+    ACTIVE_PRIORITY.find((id) => inViewIds.has(id)) ?? null;
+
+  function scrollTo(id: SectionId) {
+    refs.current[id].current?.scrollIntoView({
+      behavior: "auto",
+      block: "center",
+      inline: "center",
+    });
+  }
+
+  return {
+    sections: SECTIONS,
+    activeId,
+    refFor: (id: SectionId) => refs.current[id],
+    scrollTo,
+    isInView: (id: SectionId) => inViewIds.has(id),
+  };
+}
+
+export type Sections = ReturnType<typeof useSections>;

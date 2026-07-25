@@ -4,40 +4,34 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Instagram, Github, Linkedin } from "lucide-react";
 import ChatButton from "../chat/ChatPopUp";
-
-type RefLinks = Record<string, React.RefObject<HTMLDivElement>>;
+import type { Section, SectionId } from "../sections/sections";
 
 type Props = {
-  toggleLinks: string;
-  refLinks: RefLinks;
+  sections: Section[];
+  activeId: SectionId | null;
+  scrollTo: (id: SectionId) => void;
 };
 
-const Sidebar = ({ toggleLinks, refLinks }: Props) => {
+const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
   const motionVariants = {
     normal: { scale: 1 },
     hovered: { scale: 1.05 },
     hoverLine: { width: 100 },
   };
 
-  function hoveredLinks(name: string, link: string) {
+  function hoveredLinks(name: string, link: SectionId) {
     return (
       <motion.div whileHover={"hoverLine"} className={"flex flex-row py-1"}>
         <motion.div
           initial={{ width: 10 }}
           variants={motionVariants}
           className="mr-2 mt-[2.2rem] h-0 border-2 border-white"
-          animate={toggleLinks === link ? "hoverLine" : "normal"}
+          animate={activeId === link ? "hoverLine" : "normal"}
         ></motion.div>
         <Link
           href={`#${link}`}
           className="mt-6 font-mono text-sm"
-          onClick={() =>
-            refLinks[link]?.current?.scrollIntoView({
-              behavior: "auto",
-              block: "center",
-              inline: "center",
-            })
-          }
+          onClick={() => scrollTo(link)}
         >
           {name}
         </Link>
@@ -109,12 +103,11 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
           </div>
         </motion.div>
         <div className="portfolio-links flex w-full flex-col items-start justify-start px-10 py-20">
-          {hoveredLinks("ASCII.", "ascii")}
-          {hoveredLinks("About.", "about")}
-          {hoveredLinks("Experience.", "experience")}
-          {hoveredLinks("Projects.", "projects")}
-          {hoveredLinks("Skills.", "skills")}
-          {hoveredLinks("Contact.", "contact")}
+          {sections.map((section) => (
+            <React.Fragment key={section.id}>
+              {hoveredLinks(section.label, section.id)}
+            </React.Fragment>
+          ))}
         </div>
       </div>
       <ChatButton />

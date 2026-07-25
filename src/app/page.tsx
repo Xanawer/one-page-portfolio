@@ -1,6 +1,5 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
 import Sidebar from "./_components/sidebar/Sidebar";
 import BottomBar from "./_components/sidebar/BottomBar";
 import Summary from "./_components/summary/Summary";
@@ -8,8 +7,9 @@ import Projects from "./_components/project/Projects";
 import Experience from "./_components/experience/Experience";
 import Skills from "./_components/skills/Skills";
 import Contact from "./_components/contact/Contact";
-import { useInView, motion, useMotionTemplate } from "framer-motion";
+import { motion, useMotionTemplate } from "framer-motion";
 import useMouse from "../app/_utils/useMouse";
+import { useSections } from "./_components/sections/sections";
 
 const AnimatedASCIIArt = dynamic(
   () => import("./_components/ascii-art/AnimatedASCIIArt"),
@@ -17,62 +17,8 @@ const AnimatedASCIIArt = dynamic(
 );
 
 export default function HomePage() {
-  const [toggleLinks, setToggleLinks] = useState("");
-  // Use Motion Values for better performance.
   const { x, y } = useMouse();
-  const aboutRef = useRef(null);
-  const experienceRef = useRef(null);
-  const projectsRef = useRef(null);
-  const skillsRef = useRef(null);
-  const contactRef = useRef(null);
-  const asciiRef = useRef(null);
-  const aboutInView = useInView(aboutRef, {
-    margin: "-50% 0px", // top rigtht bottom left
-  });
-  const experienceInView = useInView(experienceRef, {
-    margin: "-50% 0px",
-  });
-  const projectsInView = useInView(projectsRef, {
-    margin: "-60% 0px",
-  });
-  const asciiInView = useInView(asciiRef, {
-    margin: "-50% 0px",
-  });
-  const skillsInView = useInView(skillsRef, {
-    margin: "-50% 0px",
-  });
-  const contactInView = useInView(contactRef, {
-    margin: "-50% 0px",
-  });
-
-  const refLinks = {
-    ascii: asciiRef,
-    about: aboutRef,
-    experience: experienceRef,
-    projects: projectsRef,
-    skills: skillsRef,
-    contact: contactRef,
-  };
-
-  useEffect(() => {
-    const sections = [
-      { id: "contact", inView: contactInView },
-      { id: "skills", inView: skillsInView },
-      { id: "projects", inView: projectsInView },
-      { id: "experience", inView: experienceInView },
-      { id: "ascii", inView: asciiInView },
-      { id: "about", inView: aboutInView },
-    ];
-    const active = sections.find((section) => section.inView);
-    setToggleLinks(active?.id ?? "");
-  }, [
-    contactInView,
-    skillsInView,
-    projectsInView,
-    experienceInView,
-    asciiInView,
-    aboutInView,
-  ]);
+  const { sections, activeId, refFor, scrollTo, isInView } = useSections();
 
   const motionVariants = {
     hidden: { opacity: 0 },
@@ -85,36 +31,36 @@ export default function HomePage() {
         variants={motionVariants}
         className="min-w-screen flex h-[100vh] min-h-screen flex-row items-center justify-end bg-[#15162c] text-white"
       >
-        <Sidebar toggleLinks={toggleLinks} refLinks={refLinks} />
-        <BottomBar toggleLinks={toggleLinks} refLinks={refLinks} />
+        <Sidebar sections={sections} activeId={activeId} scrollTo={scrollTo} />
+        <BottomBar sections={sections} activeId={activeId} scrollTo={scrollTo} />
         <motion.div
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white *:overflow-x-scroll sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
         >
           <motion.div
-            className={`${aboutInView ? "opacity-0" : "opacity-100"} grid`}
-            ref={asciiRef}
+            className={`${isInView("about") ? "opacity-0" : "opacity-100"} grid`}
+            ref={refFor("ascii")}
             aria-hidden="true"
           >
-            <AnimatedASCIIArt shouldAnimate={asciiInView} />
+            <AnimatedASCIIArt shouldAnimate={isInView("ascii")} />
           </motion.div>
           <motion.div
-            ref={aboutRef}
-            className={`mt-16 py-52 ${experienceInView ? "opacity-0" : "opacity-100"}`}
+            ref={refFor("about")}
+            className={`mt-16 py-52 ${isInView("experience") ? "opacity-0" : "opacity-100"}`}
           >
             <Summary />
           </motion.div>
-          <div ref={experienceRef} className="mt-32 w-full py-52">
+          <div ref={refFor("experience")} className="mt-32 w-full py-52">
             <Experience />
           </div>
-          <div ref={projectsRef} className="py-52">
+          <div ref={refFor("projects")} className="py-52">
             <Projects />
           </div>
-          <div ref={skillsRef} className="py-52">
+          <div ref={refFor("skills")} className="py-52">
             <Skills />
           </div>
-          <div ref={contactRef} id="contact" className="py-52">
+          <div ref={refFor("contact")} id="contact" className="py-52">
             <Contact />
           </div>
         </motion.div>
