@@ -41,6 +41,7 @@ const Chip = ({ text, selected, onSelect }: ChipProps) => {
       <span className="relative z-10">{text}</span>
       {selected && (
         <motion.span
+          data-active-chip
           layoutId="pill-tab"
           transition={{ type: "spring", duration: 0.5 }}
           className="absolute inset-0 z-0 rounded-md bg-gradient-to-r from-violet-600 to-indigo-600"

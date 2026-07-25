@@ -88,6 +88,8 @@ export default function ChatButton() {
         >
           <div
             data-testid="chat-panel"
+            role="dialog"
+            aria-label="Chat with me"
             className="dark flex h-[min(28rem,calc(100dvh-6rem-env(safe-area-inset-bottom)))] min-h-[16rem] w-[calc(100vw-1.5rem)] max-w-lg flex-col justify-between overflow-hidden rounded-base border-2 border-border bg-white font-mono shadow-light transition duration-300 dark:border-darkBorder dark:bg-darkBg dark:shadow-dark md:h-80 md:w-[32rem] md:resize-y"
           >
             <div className="flex min-h-16 shrink-0 flex-row items-center justify-between gap-2 border-b-2 border-border bg-main px-3 py-2 dark:border-darkBorder sm:px-6 sm:py-3">
@@ -196,16 +198,21 @@ export default function ChatButton() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { delay: 0.25 } }}
           exit={{ opacity: 0 }}
-          className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 z-[90] p-3 md:bottom-0 md:p-4"
+          className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 z-[100] p-3 md:bottom-0 md:p-4"
         >
-          <div
+          <button
+            type="button"
+            aria-label="Chat with me!"
             className="absolute bottom-0 left-0"
             onClick={() => {
               setIsChatOpen(true);
               if (isSignedIn) void getChats();
             }}
           >
-            <pre className="text-xs transition-all duration-100 hover:-translate-y-1 hover:cursor-pointer hover:text-gray-400">
+            <pre
+              aria-hidden="true"
+              className="text-left text-xs transition-all duration-100 hover:-translate-y-1 hover:cursor-pointer hover:text-gray-400"
+            >
               {`
 ⠀ ／l、   
 （ﾟ､ ｡ ７
@@ -213,7 +220,7 @@ export default function ChatButton() {
    じしf_, )ノ  Chat with me!
                `}
             </pre>
-          </div>
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

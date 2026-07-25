@@ -8,7 +8,7 @@ export default function Projects() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ amount: 0.15 }}
+      viewport={{ amount: 0.15, once: true }}
       className="portfolio-panel min-w-0"
     >
       <FlipLink text="Projects" href="#" />

@@ -56,6 +56,55 @@ test("mobile navigation reaches contact without hiding it", async ({ page }) => 
     .toBeLessThan(80);
 });
 
+test("mobile active chip moves directly to the requested section", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 654, height: 734 });
+  await page.goto("/");
+  await page.waitForTimeout(1_000);
+  await page.locator("#skills").evaluate((section) => {
+    window.scrollTo({
+      top: (section as HTMLElement).offsetTop,
+      behavior: "instant" as ScrollBehavior,
+    });
+  });
+
+  await expect
+    .poll(() =>
+      page
+        .locator("[data-active-chip]")
+        .evaluate((chip) => chip.parentElement?.textContent?.trim()),
+    )
+    .toBe("Skills");
+
+  await page.evaluate(() => {
+    const selected: string[] = [];
+    const sample = () => {
+      const text = document
+        .querySelector("[data-active-chip]")
+        ?.parentElement?.textContent?.trim();
+      if (text && selected.at(-1) !== text) selected.push(text);
+    };
+    sample();
+    const interval = window.setInterval(sample, 16);
+    window.setTimeout(() => window.clearInterval(interval), 1_500);
+    Object.assign(window, { __selectedChipSequence: selected });
+  });
+
+  await page.getByRole("button", { name: "About", exact: true }).click();
+  await page.waitForTimeout(1_500);
+
+  const sequence = await page.evaluate(
+    () =>
+      (
+        window as typeof window & {
+          __selectedChipSequence: string[];
+        }
+      ).__selectedChipSequence,
+  );
+  expect(sequence).toEqual(["Skills", "About"]);
+});
+
 test("desktop sidebar navigation settles on the latest selection", async ({
   page,
 }) => {
@@ -80,7 +129,7 @@ test("desktop sidebar navigation settles on the latest selection", async ({
     .toBeLessThan(80);
 });
 
-test("desktop sections fill the viewport and replay their entrance motion", async ({
+test("desktop sections fill the viewport and keep outgoing panels stable", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -96,28 +145,48 @@ test("desktop sections fill the viewport and replay their entrance motion", asyn
     expect(height).toBeGreaterThanOrEqual(900);
   }
 
-  await page.getByRole("link", { name: "About.", exact: true }).click();
-  await page.waitForTimeout(300);
-  await page.getByRole("link", { name: "Experience.", exact: true }).click();
-  await page.waitForTimeout(300);
-
-  const exitedTranslateY = await page
-    .locator("#about .portfolio-panel")
-    .evaluate((element) => {
-      const transform = getComputedStyle(element).transform;
-      return transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
-    });
-  expect(exitedTranslateY).toBeGreaterThan(0);
-
-  await page.getByRole("link", { name: "About.", exact: true }).click();
+  await page.getByRole("link", { name: "Projects.", exact: true }).click();
   await expect
     .poll(() =>
-      page.locator("#about .portfolio-panel").evaluate((element) => {
+      page.locator("#projects .portfolio-panel").evaluate((element) => {
         const transform = getComputedStyle(element).transform;
-        return transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42;
+        return transform === "none"
+          ? 0
+          : Math.round(new DOMMatrixReadOnly(transform).m42);
       }),
     )
     .toBe(0);
+
+  await page.evaluate(() => {
+    const transforms: number[] = [];
+    const sample = () => {
+      const panel = document.querySelector("#projects .portfolio-panel");
+      if (!panel) return;
+      const transform = getComputedStyle(panel).transform;
+      transforms.push(
+        transform === "none"
+          ? 0
+          : new DOMMatrixReadOnly(transform).m42,
+      );
+    };
+    sample();
+    const interval = window.setInterval(sample, 16);
+    window.setTimeout(() => window.clearInterval(interval), 1_500);
+    Object.assign(window, { __projectPanelTransforms: transforms });
+  });
+
+  await page.getByRole("link", { name: "Skills.", exact: true }).click();
+  await page.waitForTimeout(1_500);
+
+  const transforms = await page.evaluate(
+    () =>
+      (
+        window as typeof window & {
+          __projectPanelTransforms: number[];
+        }
+      ).__projectPanelTransforms,
+  );
+  expect(Math.max(...transforms.map(Math.abs))).toBeLessThanOrEqual(1);
 });
 
 test("active sidebar text follows its expanding bar", async ({ page }) => {
@@ -157,6 +226,28 @@ test("sidebar bar aligns with the bottom of its label", async ({ page }) => {
         (labelBounds!.y + labelBounds!.height),
     ),
   ).toBeLessThanOrEqual(2);
+});
+
+test("animated section headings only react over their visible text", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/#projects");
+  await page.waitForTimeout(1_000);
+
+  const widths = await page.locator('#projects a[href="#"]').evaluate((link) => {
+    const letters = Array.from(link.querySelectorAll("div:first-child span"));
+    const first = letters[0]?.getBoundingClientRect();
+    const last = letters.at(-1)?.getBoundingClientRect();
+
+    return {
+      hitbox: link.getBoundingClientRect().width,
+      text:
+        first && last ? last.right - first.left : link.getBoundingClientRect().width,
+    };
+  });
+
+  expect(widths.hitbox - widths.text).toBeLessThanOrEqual(2);
 });
 
 test("mobile chat remains inside the available viewport", async ({ page }) => {

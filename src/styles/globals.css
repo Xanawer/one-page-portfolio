@@ -5,6 +5,7 @@
 @layer base {
   html {
     @apply bg-shell;
+    scroll-behavior: smooth;
   }
 
   body {

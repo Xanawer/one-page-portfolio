@@ -43,6 +43,9 @@ export function useSections() {
     contact: { current: null },
   });
   const [inViewIds, setInViewIds] = useState<ReadonlySet<SectionId>>(new Set());
+  const [pendingId, setPendingId] = useState<SectionId | null>(null);
+  const pendingIdRef = useRef<SectionId | null>(null);
+  const navigationCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const observers = SECTIONS.map((section) => {
@@ -66,14 +69,40 @@ export function useSections() {
       if (element) observer.observe(element);
       return observer;
     });
-    return () => observers.forEach((observer) => observer.disconnect());
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+      navigationCleanupRef.current?.();
+    };
   }, []);
 
-  const activeId = ACTIVE_PRIORITY.find((id) => inViewIds.has(id)) ?? null;
+  const observedActiveId =
+    ACTIVE_PRIORITY.find((id) => inViewIds.has(id)) ?? null;
+  const activeId = pendingId ?? observedActiveId;
 
   function scrollTo(id: SectionId) {
     const section = refs.current[id].current;
     if (!section) return;
+
+    pendingIdRef.current = id;
+    setPendingId(id);
+    navigationCleanupRef.current?.();
+
+    let settleTimer = 0;
+    const finishNavigation = () => {
+      if (pendingIdRef.current === id) {
+        pendingIdRef.current = null;
+        setPendingId(null);
+      }
+      window.removeEventListener("scroll", scheduleSettlement);
+      window.clearTimeout(settleTimer);
+      navigationCleanupRef.current = null;
+    };
+    const scheduleSettlement = () => {
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(finishNavigation, 150);
+    };
+    window.addEventListener("scroll", scheduleSettlement, { passive: true });
+    navigationCleanupRef.current = finishNavigation;
 
     window.history.replaceState(null, "", `#${id}`);
     section.scrollIntoView({
@@ -81,6 +110,7 @@ export function useSections() {
       block: "start",
       inline: "nearest",
     });
+    scheduleSettlement();
   }
 
   return {

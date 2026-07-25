@@ -13,7 +13,7 @@ export default function Experience() {
           <motion.div
             initial={{ y: 200, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ amount: 0.25 }}
+            viewport={{ amount: 0.25, once: true }}
             className="portfolio-panel flex min-w-0 items-center"
           >
             <div className="min-w-0">

@@ -10,7 +10,7 @@ export default function Contact() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ amount: 0.25 }}
+      viewport={{ amount: 0.25, once: true }}
       className="portfolio-panel flex min-w-0 flex-col"
     >
       <FlipLink text="Contact" href="#contact" />

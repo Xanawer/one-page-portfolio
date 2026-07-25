@@ -29,7 +29,7 @@ export default function Skills() {
     <motion.div
       initial={{ y: 200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ amount: 0.15 }}
+      viewport={{ amount: 0.15, once: true }}
       className="portfolio-panel flex min-w-0 flex-col"
     >
       <FlipLink text="Skills" href="#" />
