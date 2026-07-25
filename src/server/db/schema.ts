@@ -5,7 +5,6 @@ import { sql } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
-  serial,
   timestamp,
   varchar,
   boolean,
@@ -21,23 +20,6 @@ export const createTable = pgTableCreator(
   (name) => `one-page-portfolio_${name}`,
 );
 
-export const posts = createTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date(),
-    ),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
-
 // You are chatting with me, the developer, so it is a many - one relationship.
 export const chats = createTable(
   "chat",
@@ -46,7 +28,7 @@ export const chats = createTable(
       .primaryKey()
       .default(sql`gen_random_uuid()`),
     userId: varchar("user_id").notNull(),
-    message: varchar("message", { length: 1024 }),
+    message: varchar("message", { length: 1024 }).notNull(),
     isAdmin: boolean("is_admin").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -54,6 +36,6 @@ export const chats = createTable(
     updatedAt: timestamp("updatedAt", { withTimezone: true }),
   },
   (example) => ({
-    nameIndex: index("chat_idx").on(example.message),
+    userIdIndex: index("chat_user_id_idx").on(example.userId),
   }),
 );

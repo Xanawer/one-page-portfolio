@@ -4,7 +4,7 @@ import type { chats } from "@simple/server/db/schema";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ChatBubble from "./ChatBubble";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import { BrutalButton } from "../common/BrutalButton";
 
 type Chat = typeof chats.$inferInsert;
@@ -13,6 +13,7 @@ export default function ChatButton() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatText, setChatText] = useState("");
+  const { isSignedIn } = useAuth();
 
   async function sendChat(message: string) {
     console.log(message);
@@ -57,8 +58,8 @@ export default function ChatButton() {
   }
 
   useEffect(() => {
-    void getChats();
-  }, []);
+    if (isSignedIn) void getChats();
+  }, [isSignedIn]);
 
   return (
     <AnimatePresence>
@@ -136,13 +137,14 @@ export default function ChatButton() {
                   title="Chat box."
                   type="text"
                   className="w-[26rem] rounded-full px-2 text-black"
+                  value={chatText}
                   onChange={(e) => {
                     setChatText(e.target.value);
                   }}
                   onKeyUp={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" && chatText.trim() !== "") {
                       void sendChat(chatText);
-                      e.currentTarget.value = "";
+                      setChatText("");
                     }
                   }}
                 ></input>
@@ -150,7 +152,9 @@ export default function ChatButton() {
                   className="ml-5 h-full self-center rounded-full"
                   title="Send Chat"
                   onClick={() => {
+                    if (chatText.trim() === "") return;
                     void sendChat(chatText);
+                    setChatText("");
                   }}
                 >
                   <p className="font-button text-white">Send</p>

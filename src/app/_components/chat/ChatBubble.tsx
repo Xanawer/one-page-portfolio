@@ -10,11 +10,13 @@ interface ChatBubbleProps {
   isAdmin: boolean;
 }
 
-function areEqual(
-  { message: prevMessage }: { message: string },
-  { message }: { message: string },
-) {
-  return message == prevMessage;
+function areEqual(prev: ChatBubbleProps, next: ChatBubbleProps) {
+  return (
+    prev.message === next.message &&
+    prev.sender === next.sender &&
+    prev.isAdmin === next.isAdmin &&
+    prev.createdAt.toString() === next.createdAt.toString()
+  );
 }
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({

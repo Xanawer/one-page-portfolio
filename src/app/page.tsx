@@ -20,7 +20,6 @@ export default function HomePage() {
   const [toggleLinks, setToggleLinks] = useState("");
   // Use Motion Values for better performance.
   const { x, y } = useMouse();
-  const contentRef = useRef(null);
   const aboutRef = useRef(null);
   const experienceRef = useRef(null);
   const projectsRef = useRef(null);
@@ -86,14 +85,9 @@ export default function HomePage() {
         variants={motionVariants}
         className="min-w-screen flex h-[100vh] min-h-screen flex-row items-center justify-end bg-[#15162c] text-white"
       >
-        <Sidebar
-          key="sidebar-_components"
-          toggleLinks={toggleLinks}
-          refLinks={refLinks}
-        />
+        <Sidebar toggleLinks={toggleLinks} refLinks={refLinks} />
         <BottomBar toggleLinks={toggleLinks} refLinks={refLinks} />
         <motion.div
-          ref={contentRef}
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="h-[100vh] w-[95%] items-start justify-center overflow-x-hidden overflow-y-hidden scroll-smooth bg-[#15162c] font-mono text-white *:overflow-x-scroll sm:px-5 md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[60%]"
@@ -111,19 +105,13 @@ export default function HomePage() {
           >
             <Summary />
           </motion.div>
-          <div
-            ref={experienceRef}
-            className={`${experienceInView ? "" : ""} mt-32 w-full py-52`}
-          >
+          <div ref={experienceRef} className="mt-32 w-full py-52">
             <Experience />
           </div>
-          <div
-            ref={projectsRef}
-            className={`${projectsInView ? "" : ""} py-52`}
-          >
+          <div ref={projectsRef} className="py-52">
             <Projects />
           </div>
-          <div ref={skillsRef} className={`${skillsInView ? "" : ""} py-52`}>
+          <div ref={skillsRef} className="py-52">
             <Skills />
           </div>
           <div ref={contactRef} id="contact" className="py-52">

@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Instagram, GitHub, LinkedIn } from "@mui/icons-material";
+import { Instagram, Github, Linkedin } from "lucide-react";
 import ChatButton from "../chat/ChatPopUp";
 
 type RefLinks = Record<string, React.RefObject<HTMLDivElement>>;
@@ -87,7 +87,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
                 href="https://www.github.com/Xanawer"
                 className="flex h-8 w-8 items-center justify-center rounded-full"
               >
-                <GitHub className="opacity-70" />
+                <Github className="opacity-70" />
               </Link>
             </motion.div>
             <motion.div whileHover={{ y: -10 }}>
@@ -95,7 +95,7 @@ const Sidebar = ({ toggleLinks, refLinks }: Props) => {
                 href="https://www.linkedin.com/in/Xanawer"
                 className="ml-2 flex h-8 w-8 items-center justify-center rounded-full"
               >
-                <LinkedIn className="opacity-70" />
+                <Linkedin className="opacity-70" />
               </Link>
             </motion.div>
             <motion.div whileHover={{ y: -10 }} className="h-full w-full">

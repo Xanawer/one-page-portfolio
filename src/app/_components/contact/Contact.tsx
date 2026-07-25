@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { GitHub, LinkedIn, Email } from "@mui/icons-material";
+import { Github, Linkedin, Mail } from "lucide-react";
 import FlipLink from "../common/FlippingText";
 import DottedButton from "../common/DottedButton";
 
@@ -36,21 +36,21 @@ export default function Contact() {
             href="mailto:hello@jameslimzz.me"
             className="flex items-center gap-2 opacity-80 transition-opacity hover:opacity-100"
           >
-            <Email fontSize="small" />
+            <Mail size={20} />
             hello@jameslimzz.me
           </Link>
           <Link
             href="https://www.linkedin.com/in/Xanawer"
             className="flex items-center gap-2 opacity-80 transition-opacity hover:opacity-100"
           >
-            <LinkedIn fontSize="small" />
+            <Linkedin size={20} />
             linkedin.com/in/Xanawer
           </Link>
           <Link
             href="https://www.github.com/Xanawer"
             className="flex items-center gap-2 opacity-80 transition-opacity hover:opacity-100"
           >
-            <GitHub fontSize="small" />
+            <Github size={20} />
             github.com/Xanawer
           </Link>
         </div>
