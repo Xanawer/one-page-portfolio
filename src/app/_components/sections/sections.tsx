@@ -3,12 +3,7 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 
 export type SectionId =
-  | "ascii"
-  | "about"
-  | "experience"
-  | "projects"
-  | "skills"
-  | "contact";
+  "ascii" | "about" | "experience" | "projects" | "skills" | "contact";
 
 export type Section = {
   id: SectionId;
@@ -35,7 +30,7 @@ const ACTIVE_PRIORITY: SectionId[] = [
 ];
 
 export function useSections() {
-  const refs = useRef<Record<SectionId, RefObject<HTMLDivElement>>>({
+  const refs = useRef<Record<SectionId, RefObject<HTMLDivElement | null>>>({
     ascii: { current: null },
     about: { current: null },
     experience: { current: null },
@@ -43,9 +38,7 @@ export function useSections() {
     skills: { current: null },
     contact: { current: null },
   });
-  const [inViewIds, setInViewIds] = useState<ReadonlySet<SectionId>>(
-    new Set(),
-  );
+  const [inViewIds, setInViewIds] = useState<ReadonlySet<SectionId>>(new Set());
 
   useEffect(() => {
     const observers = SECTIONS.map((section) => {
@@ -72,8 +65,7 @@ export function useSections() {
     return () => observers.forEach((observer) => observer.disconnect());
   }, []);
 
-  const activeId =
-    ACTIVE_PRIORITY.find((id) => inViewIds.has(id)) ?? null;
+  const activeId = ACTIVE_PRIORITY.find((id) => inViewIds.has(id)) ?? null;
 
   function scrollTo(id: SectionId) {
     refs.current[id].current?.scrollIntoView({

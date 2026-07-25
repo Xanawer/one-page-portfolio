@@ -1,10 +1,10 @@
 "use client";
 
 import type { ChatMessage, ListView } from "@simple/server/chat";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ChatBubble from "./ChatBubble";
-import { SignedIn, SignedOut, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
+import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import { BrutalButton } from "../common/BrutalButton";
 
 type ChatDto = Omit<ChatMessage, "createdAt"> & { createdAt: string };
@@ -64,10 +64,6 @@ export default function ChatButton() {
     }
   }
 
-  useEffect(() => {
-    if (isSignedIn) void getChats();
-  }, [isSignedIn]);
-
   return (
     <AnimatePresence>
       {isChatOpen ? (
@@ -86,19 +82,19 @@ export default function ChatButton() {
           >
             <div className="flex h-1/5 flex-row items-center justify-between border-b-2 border-border bg-main px-6 py-3 dark:border-darkBorder">
               <div className="w-full">
-                <SignedIn>
+                {isSignedIn ? (
                   <UserButton
                     showName
                     appearance={{
                       elements: {
-                        userButtonOuterIdentifier: "text-text font-heading font-mono",
+                        userButtonOuterIdentifier:
+                          "text-text font-heading font-mono",
                       },
                     }}
-                  ></UserButton>
-                </SignedIn>
-                <SignedOut>
+                  />
+                ) : (
                   <h2 className="font-heading text-text">Chat with Me:</h2>
-                </SignedOut>
+                )}
               </div>
               <BrutalButton
                 variant="neutral"
@@ -110,18 +106,18 @@ export default function ChatButton() {
                 Close
               </BrutalButton>
             </div>
-            <div className="bg-bg flex h-3/5 flex-col-reverse overflow-y-auto dark:bg-darkBg">
-              <SignedIn>
-                {chats.length === 0 && (
-                  <div className="flex h-full items-center justify-center">
-                    <p className="text-text/60 dark:text-darkText/60 text-center font-mono text-xs italic">
-                      No messages yet — say hi!
-                    </p>
-                  </div>
-                )}
-                <AnimatePresence>
-                  {chats.map((chat) => {
-                    return (
+            <div className="flex h-3/5 flex-col-reverse overflow-y-auto bg-bg dark:bg-darkBg">
+              {isSignedIn ? (
+                <>
+                  {chats.length === 0 && (
+                    <div className="flex h-full items-center justify-center">
+                      <p className="text-center font-mono text-xs italic text-text/60 dark:text-darkText/60">
+                        No messages yet — say hi!
+                      </p>
+                    </div>
+                  )}
+                  <AnimatePresence>
+                    {chats.map((chat) => (
                       <ChatBubble
                         key={`chatbubble-${chat.id}`}
                         message={chat.message}
@@ -129,20 +125,19 @@ export default function ChatButton() {
                         createdAt={chat.createdAt}
                         isAdmin={chat.isAdmin}
                       />
-                    );
-                  })}
-                </AnimatePresence>
-              </SignedIn>
-              <SignedOut>
+                    ))}
+                  </AnimatePresence>
+                </>
+              ) : (
                 <div className="flex h-full flex-col items-center justify-center gap-4">
-                  <p className="text-text dark:text-darkText text-center font-mono">
+                  <p className="text-center font-mono text-text dark:text-darkText">
                     Please sign in to chat.
                   </p>
                   <SignInButton>
                     <BrutalButton className="font-mono">Sign In</BrutalButton>
                   </SignInButton>
                 </div>
-              </SignedOut>
+              )}
             </div>
             <div className="flex h-1/5 flex-row items-center justify-between border-t-2 border-border bg-white px-3 py-3 dark:border-darkBorder dark:bg-darkBg">
               <div className="flex w-full flex-col">
@@ -155,7 +150,7 @@ export default function ChatButton() {
                     title="Chat box."
                     type="text"
                     disabled={!isSignedIn}
-                    className="rounded-base border-border text-text font-base dark:placeholder:text-darkText/50 w-full flex-1 border-2 bg-white px-2 py-1 font-mono placeholder:text-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-darkBorder dark:bg-darkBg dark:text-darkText"
+                    className="w-full flex-1 rounded-base border-2 border-border bg-white px-2 py-1 font-mono font-base text-text placeholder:text-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-darkBorder dark:bg-darkBg dark:text-darkText dark:placeholder:text-darkText/50"
                     value={chatText}
                     onChange={(e) => {
                       setChatText(e.target.value);
@@ -195,7 +190,10 @@ export default function ChatButton() {
         >
           <div
             className="absolute bottom-0 left-0"
-            onClick={() => setIsChatOpen(true)}
+            onClick={() => {
+              setIsChatOpen(true);
+              if (isSignedIn) void getChats();
+            }}
           >
             <pre className="text-xs transition-all duration-100 hover:-translate-y-1 hover:cursor-pointer hover:text-gray-400">
               {`

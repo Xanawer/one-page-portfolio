@@ -4,14 +4,16 @@ Personal portfolio site for [James Lim Zhong Zhi](https://www.jameslimzz.me): a 
 
 ## Stack
 
-- [Next.js 14](https://nextjs.org) (App Router)
-- [React 18](https://react.dev)
-- [Tailwind CSS](https://tailwindcss.com)
+- [Next.js 16](https://nextjs.org) (App Router)
+- [React 19](https://react.dev)
+- [Tailwind CSS 3](https://tailwindcss.com)
 - [Framer Motion](https://www.framer.com/motion/)
 - [Clerk](https://clerk.com) (auth for chat)
 - Deployed on [Vercel](https://vercel.com)
 
 ## Local development
+
+Requires Node.js 20.9 or newer.
 
 ```bash
 npm install

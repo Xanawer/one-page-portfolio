@@ -21,8 +21,8 @@ const STATUS_BY_REASON: Record<ChatInboxError, number> = {
   invalid: 400,
 };
 
-function currentViewer(): Viewer {
-  const { userId, sessionClaims } = auth();
+async function currentViewer(): Promise<Viewer> {
+  const { userId, sessionClaims } = await auth();
   return {
     userId,
     role: sessionClaims?.metadata.role === "admin" ? "admin" : "user",
@@ -34,7 +34,7 @@ function errorResponse(reason: ChatInboxError) {
 }
 
 export async function GET() {
-  const result = await inbox.list(currentViewer());
+  const result = await inbox.list(await currentViewer());
   if (!result.ok) return errorResponse(result.reason);
   return Response.json(result.view);
 }
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     return Response.json({ reason: "invalid" }, { status: 400 });
   }
   const result = await inbox.send(
-    currentViewer(),
+    await currentViewer(),
     body.message,
     body.replyingTo,
   );

@@ -47,6 +47,9 @@ const securityHeaders = [
 
 /** @type {import("next").NextConfig} */
 const config = {
+  turbopack: {
+    root: process.cwd(),
+  },
   async headers() {
     return [
       {
