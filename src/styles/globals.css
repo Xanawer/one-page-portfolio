@@ -38,6 +38,31 @@
   background-repeat: repeat;
 }
 
+@keyframes ascii-waterfall-fall {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(50%);
+  }
+}
+
+.ascii-waterfall-column {
+  position: absolute;
+  top: -100%;
+  margin: 0;
+  white-space: pre;
+  font-family: monospace;
+  font-size: clamp(0.5rem, 0.7vw, 0.7rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0;
+  animation-name: ascii-waterfall-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
