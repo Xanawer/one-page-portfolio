@@ -9,11 +9,13 @@ type BackgroundProps = {
 export function AsciiBackground({ active, children }: BackgroundProps) {
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[100dvh] overflow-hidden bg-[#170b17]"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#170b17]"
       aria-hidden="true"
     >
       {children}
-      <div className="absolute -inset-x-[38%] -inset-y-[22%] rotate-[-7deg] sm:-inset-x-[18%] md:-inset-x-[5%]">
+      <div
+        className={`absolute -inset-x-[38%] -inset-y-[22%] rotate-[-7deg] transition-opacity duration-700 sm:-inset-x-[18%] md:-inset-x-[5%] ${active ? "opacity-100" : "opacity-0"}`}
+      >
         <AsciiPlayer
           source="/ascii/frames.json"
           active={active}

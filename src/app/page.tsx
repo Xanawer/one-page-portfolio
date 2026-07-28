@@ -32,7 +32,7 @@ export default function HomePage() {
         className="relative min-h-dvh overflow-x-clip bg-shell text-white"
       >
         <AsciiBackground active={asciiActive}>
-          <AsciiWaterfall active={asciiActive} />
+          <AsciiWaterfall active variant={activeId ?? "ascii"} />
         </AsciiBackground>
         <Sidebar sections={sections} activeId={activeId} scrollTo={scrollTo} />
         <BottomBar

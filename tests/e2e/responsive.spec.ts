@@ -41,7 +41,9 @@ for (const viewport of VIEWPORTS) {
   });
 }
 
-test("mobile navigation reaches contact without hiding it", async ({ page }) => {
+test("mobile navigation reaches contact without hiding it", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 320, height: 568 });
   await page.goto("/");
   await page.waitForTimeout(1_000);
@@ -164,9 +166,7 @@ test("desktop sections fill the viewport and keep outgoing panels stable", async
       if (!panel) return;
       const transform = getComputedStyle(panel).transform;
       transforms.push(
-        transform === "none"
-          ? 0
-          : new DOMMatrixReadOnly(transform).m42,
+        transform === "none" ? 0 : new DOMMatrixReadOnly(transform).m42,
       );
     };
     sample();
@@ -235,19 +235,51 @@ test("animated section headings only react over their visible text", async ({
   await page.goto("/#projects");
   await page.waitForTimeout(1_000);
 
-  const widths = await page.locator('#projects a[href="#"]').evaluate((link) => {
-    const letters = Array.from(link.querySelectorAll("div:first-child span"));
-    const first = letters[0]?.getBoundingClientRect();
-    const last = letters.at(-1)?.getBoundingClientRect();
+  const widths = await page
+    .locator('#projects a[href="#"]')
+    .evaluate((link) => {
+      const letters = Array.from(link.querySelectorAll("div:first-child span"));
+      const first = letters[0]?.getBoundingClientRect();
+      const last = letters.at(-1)?.getBoundingClientRect();
 
-    return {
-      hitbox: link.getBoundingClientRect().width,
-      text:
-        first && last ? last.right - first.left : link.getBoundingClientRect().width,
-    };
-  });
+      return {
+        hitbox: link.getBoundingClientRect().width,
+        text:
+          first && last
+            ? last.right - first.left
+            : link.getBoundingClientRect().width,
+      };
+    });
 
   expect(widths.hitbox - widths.text).toBeLessThanOrEqual(2);
+});
+
+test("waterfall persists with a stable variation for each section", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForTimeout(1_000);
+
+  const waterfall = page.locator("[data-waterfall-variant]");
+  const initialStream = await waterfall
+    .locator(".ascii-waterfall-column")
+    .first()
+    .textContent();
+  await expect(waterfall).toHaveAttribute("data-waterfall-variant", "ascii");
+  await expect(waterfall.locator("..")).toHaveCSS("position", "fixed");
+
+  await page.getByRole("link", { name: "Projects.", exact: true }).click();
+  await expect(waterfall).toHaveAttribute("data-waterfall-variant", "projects");
+  await expect(
+    waterfall.locator(".ascii-waterfall-column").first(),
+  ).not.toHaveText(initialStream ?? "");
+
+  await page.getByRole("link", { name: "ASCII.", exact: true }).click();
+  await expect(waterfall).toHaveAttribute("data-waterfall-variant", "ascii");
+  await expect(waterfall.locator(".ascii-waterfall-column").first()).toHaveText(
+    initialStream ?? "",
+  );
 });
 
 test("mobile chat remains inside the available viewport", async ({ page }) => {
