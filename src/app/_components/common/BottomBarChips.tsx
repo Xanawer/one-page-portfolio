@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
-import type { Section, SectionId } from "../sections/sections";
+import type { SectionNavigation } from "../sections/sections";
 
-type Props = {
-  sections: Section[];
-  activeId: SectionId | null;
-  scrollTo: (id: SectionId) => void;
-};
+type Props = SectionNavigation;
 
 const ChipTabs = ({ sections, activeId, scrollTo }: Props) => {
   return (

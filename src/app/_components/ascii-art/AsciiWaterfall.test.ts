@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { makeWaterfallStream, WATERFALL_VARIANTS } from "./AsciiWaterfall";
+import {
+  getWaterfallProfile,
+  makeWaterfallStream,
+  WATERFALL_VARIANTS,
+} from "./AsciiWaterfall";
 
 describe("ASCII waterfall variations", () => {
   it("keeps each section variation stable", () => {
@@ -13,9 +17,19 @@ describe("ASCII waterfall variations", () => {
         3,
         24,
         2,
-        WATERFALL_VARIANTS.projects.narrowBlankEvery,
-        WATERFALL_VARIANTS.projects.seed,
+        getWaterfallProfile("projects").narrowBlankEvery,
+        getWaterfallProfile("projects").seed,
       ),
     ).toBe(streams[3]);
+  });
+
+  it("derives a stable profile for a new section id", () => {
+    const first = getWaterfallProfile("blog");
+    const second = getWaterfallProfile("blog");
+
+    expect(second).toEqual(first);
+    expect(getWaterfallProfile("blog")).not.toEqual(
+      getWaterfallProfile("notes"),
+    );
   });
 });

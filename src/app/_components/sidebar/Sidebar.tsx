@@ -3,13 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Instagram, Github, Linkedin } from "lucide-react";
-import type { Section, SectionId } from "../sections/sections";
+import type { SectionNavigation, SectionId } from "../sections/sections";
 
-type Props = {
-  sections: Section[];
-  activeId: SectionId | null;
-  scrollTo: (id: SectionId) => void;
-};
+type Props = SectionNavigation;
 
 const Sidebar = ({ sections, activeId, scrollTo }: Props) => {
   const motionVariants = {

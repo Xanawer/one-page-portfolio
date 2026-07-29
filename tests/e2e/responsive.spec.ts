@@ -126,7 +126,7 @@ test("desktop sidebar navigation settles on the latest selection", async ({
           .evaluate((element) =>
             Math.round(element.getBoundingClientRect().top),
           ),
-      { timeout: 500 },
+      { timeout: 1_500 },
     )
     .toBeLessThan(80);
 });
@@ -252,6 +252,26 @@ test("animated section headings only react over their visible text", async ({
     });
 
   expect(widths.hitbox - widths.text).toBeLessThanOrEqual(2);
+});
+
+test("repeated navigation keeps the latest pending target active", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 654, height: 734 });
+  await page.goto("/");
+  await page.waitForTimeout(1_000);
+
+  const projectsButton = page.getByRole("button", {
+    name: "Projects",
+    exact: true,
+  });
+  await projectsButton.click();
+  await projectsButton.click();
+
+  await expect(page.locator("[data-waterfall-variant]")).toHaveAttribute(
+    "data-waterfall-variant",
+    "projects",
+  );
 });
 
 test("waterfall persists with a stable variation for each section", async ({

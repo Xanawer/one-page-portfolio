@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import type { SectionId } from "../sections/sections";
 
 const ALPHANUMERIC_GLYPHS =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -11,15 +10,14 @@ function pseudoRandom(seed: number) {
   return value - Math.floor(value);
 }
 
-export const WATERFALL_VARIANTS: Record<
-  SectionId,
-  {
-    seed: number;
-    narrowBlankEvery: number;
-    wideBlankEvery: number;
-    colorOffset: number;
-  }
-> = {
+type WaterfallProfile = {
+  seed: number;
+  narrowBlankEvery: number;
+  wideBlankEvery: number;
+  colorOffset: number;
+};
+
+export const WATERFALL_VARIANTS = {
   ascii: { seed: 0, narrowBlankEvery: 8, wideBlankEvery: 10, colorOffset: 0 },
   about: { seed: 131, narrowBlankEvery: 9, wideBlankEvery: 11, colorOffset: 1 },
   experience: {
@@ -47,6 +45,27 @@ export const WATERFALL_VARIANTS: Record<
     colorOffset: 5,
   },
 };
+
+const compatibilityVariants = WATERFALL_VARIANTS as Record<
+  string,
+  WaterfallProfile
+>;
+
+function fallbackProfile(id: string): WaterfallProfile {
+  let hash = 17;
+  for (const character of id)
+    hash = (hash * 31 + character.charCodeAt(0)) % 997;
+  return {
+    seed: hash,
+    narrowBlankEvery: 7 + (hash % 4),
+    wideBlankEvery: 9 + (hash % 4),
+    colorOffset: hash % 6,
+  };
+}
+
+export function getWaterfallProfile(id: string): WaterfallProfile {
+  return compatibilityVariants[id] ?? fallbackProfile(id);
+}
 
 export function makeWaterfallStream(
   column: number,
@@ -135,9 +154,9 @@ export function AsciiWaterfall({
   variant,
 }: {
   active: boolean;
-  variant: SectionId;
+  variant: string;
 }) {
-  const profile = WATERFALL_VARIANTS[variant];
+  const profile = getWaterfallProfile(variant);
 
   return (
     <div
