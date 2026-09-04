@@ -47,6 +47,7 @@ const securityHeaders = [
 
 /** @type {import("next").NextConfig} */
 const config = {
+  allowedDevOrigins: ["vps-b4b3175e.tail2805e1.ts.net"],
   turbopack: {
     root: process.cwd(),
   },
