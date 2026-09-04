@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ArrowDown } from "lucide-react";
 import AsciiPlayer from "./AsciiPlayer";
 
 type BackgroundProps = {
@@ -48,6 +49,14 @@ $$ |  $$ |$$  __$$ |$$ | $$ | $$ |$$   ____| \\____$$\\       $$ |      $$ |$$ |
  \\______\/  \\_______|\\__| \\__| \\__| \\_______|\\_______\/       \\________|\\__|\\__| \\__| \\__|`}</code>
       </pre>
       <div className="mt-6 h-1 w-20 bg-cyan-300" aria-hidden="true" />
+      <p className="mt-5 max-w-md text-pretty font-mono text-xs leading-relaxed text-gray-300 sm:text-sm">
+        Building fast, expressive web apps with TypeScript, React and a weakness
+        for well-timed animation.
+      </p>
+      <p className="mt-8 inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-gray-400">
+        Scroll
+        <ArrowDown size={14} className="animate-bounce" />
+      </p>
     </div>
   );
 }

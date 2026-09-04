@@ -78,7 +78,7 @@ const HERO_FRAME_CLASS = "grid scroll-mt-6 md:scroll-mt-10";
 const CONTENT_FRAME_CLASS =
   "portfolio-section w-full scroll-mt-6 py-16 sm:py-20 md:flex md:min-h-dvh md:scroll-mt-0 md:flex-col md:justify-center lg:py-28";
 const CONTENT_PANEL_CLASS =
-  "portfolio-panel min-w-0 border-b-2 border-gray-200 py-8 sm:py-10";
+  "portfolio-panel min-w-0 border-b-2 border-gray-200/70 py-8 sm:py-10";
 const IN_VIEW_MARGIN = "-35% 0px -55% 0px";
 const VIEWPORT_ANCHOR = 0.4;
 
@@ -252,12 +252,27 @@ type SectionStackProps = {
   sectionRefs: SectionRefs;
 };
 
+function SectionEyebrow({ index, id }: { index: number; id: SectionId }) {
+  return (
+    <p
+      aria-hidden="true"
+      className="mb-4 flex items-center gap-3 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-cyan-300/80"
+    >
+      <span>{String(index).padStart(2, "0")}</span>
+      <span className="h-px w-8 bg-cyan-300/50" />
+      <span className="text-gray-400">{`// ${id}`}</span>
+    </p>
+  );
+}
+
 function SectionFrame({
   section,
   sectionRef,
+  index,
 }: {
   section: Section;
   sectionRef: RefObject<HTMLDivElement | null>;
+  index: number;
 }) {
   const Renderer = section.renderer;
 
@@ -286,6 +301,7 @@ function SectionFrame({
         viewport={{ amount: 0.15, once: true }}
         className={CONTENT_PANEL_CLASS}
       >
+        <SectionEyebrow index={index} id={section.id} />
         <FlipLink
           text={section.title}
           href={section.id === "contact" ? "#contact" : "#"}
@@ -300,11 +316,12 @@ function SectionFrame({
 export function SectionStack({ sections, sectionRefs }: SectionStackProps) {
   return (
     <>
-      {sections.map((section) => (
+      {sections.map((section, index) => (
         <SectionFrame
           key={section.id}
           section={section}
           sectionRef={sectionRefs[section.id]}
+          index={index}
         />
       ))}
     </>

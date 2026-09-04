@@ -4,6 +4,7 @@ import BottomBar from "./_components/sidebar/BottomBar";
 import { MotionConfig, motion, useReducedMotion } from "framer-motion";
 import { SectionStack, useSections } from "./_components/sections/sections";
 import ChatButton from "./_components/chat/ChatPopUp";
+import ScrollProgress from "./_components/common/ScrollProgress";
 import { AsciiBackground } from "./_components/ascii-art/AsciiLanding";
 import { AsciiWaterfall } from "./_components/ascii-art/AsciiWaterfall";
 
@@ -27,6 +28,7 @@ export default function HomePage() {
         <AsciiBackground active={asciiActive}>
           <AsciiWaterfall active variant={activeId ?? "ascii"} />
         </AsciiBackground>
+        <ScrollProgress />
         <Sidebar {...navigation} />
         <BottomBar {...navigation} />
         <motion.div

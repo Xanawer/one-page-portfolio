@@ -12,8 +12,12 @@ export default function BottomBar({ sections, activeId, scrollTo }: Props) {
       className="shadow-t fixed inset-x-0 bottom-0 z-[100] flex min-h-16 items-center border-t-2 border-border bg-slate-200 px-3 pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <div className="flex min-w-0 flex-1 items-center gap-3 text-text">
-        <header className="shrink-0 border-r-2 border-r-black font-mono">
-          J.LZZ&nbsp;
+        <header className="flex shrink-0 items-center gap-1.5 border-r-2 border-r-black pr-3 font-mono text-sm font-semibold">
+          <span
+            aria-hidden="true"
+            className="inline-block h-2 w-2 rounded-sm bg-gradient-to-br from-violet-600 to-indigo-600"
+          />
+          J.LZZ
         </header>
         <ChipTabs sections={sections} activeId={activeId} scrollTo={scrollTo} />
       </div>

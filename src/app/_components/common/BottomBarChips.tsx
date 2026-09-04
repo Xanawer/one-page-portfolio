@@ -28,11 +28,12 @@ const Chip = ({ text, selected, onSelect }: ChipProps) => {
   return (
     <button
       onClick={onSelect}
+      aria-current={selected ? "location" : undefined}
       className={`${
         selected
           ? "text-white"
           : "text-darkBg hover:bg-slate-700 hover:text-slate-200"
-      } relative shrink-0 rounded-md px-2.5 py-1 text-sm transition-colors`}
+      } relative shrink-0 rounded-md px-2.5 py-1 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600`}
     >
       <span className="relative z-10">{text}</span>
       {selected && (
